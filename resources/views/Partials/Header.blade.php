@@ -2,21 +2,16 @@
 
     <div class="d-flex align-items-center justify-content-between">
         <a href="{{ route('app.home') }}" class="logo d-flex align-items-center">
-            @if (Auth::check() && Auth::user()->empresa->logo != "")
+            @if (Auth::check() && isset(Auth::user()->empresa->logo) && Auth::user()->empresa->logo != "")
                 <img class="d-none d-lg-block" src="{{"storage/" . Auth::user()->empresa->logo}}" height="75">
             @endif
-            <span class="d-none d-lg-block">PORTAL DTE</span>
+            <span class="d-none d-lg-block">App Becados</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->
 
     <nav class="header-nav ms-auto">
         <ul class="d-flex align-items-center">
-            <li class="nav-item d-block">
-                <a class="nav-link nav-icon search-bar-toggle " href="#" style="font-size: 14px;font-weight: 500;">
-                    <i class="bi bi-people"></i> {{ Auth::user()->cuenta->nombre}} - <i class="bi bi-building-fill-check"></i> {{Auth::user()->empresa->nombre}}
-                </a>
-            </li>
             {{--<li class="nav-item d-block d-lg-none">
                 <a class="nav-link nav-icon search-bar-toggle " href="#">
                     <i class="bi bi-search"></i>
