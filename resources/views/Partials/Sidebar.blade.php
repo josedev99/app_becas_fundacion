@@ -7,14 +7,12 @@
                 <span>Inicio</span>
             </a>
         </li>
-        @if(Auth::check() && (Auth::user()->categoria== "SuperAdmin" || PermissionHelper::hasPermissionUser("cuentas_ver")))
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ route('cuenta.index') }}">
+            <a class="nav-link collapsed" href="{{ route('becados.index') }}">
                 <i class="bi bi-person"></i>
-                <span>Cuentas</span>
+                <span>Becados</span>
             </a>
         </li>
-        @endif
         @if(Auth::check() && (Auth::user()->categoria== "SuperAdmin" || PermissionHelper::hasPermissionUser("empresas_ver")))
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('empresa.index') }}">

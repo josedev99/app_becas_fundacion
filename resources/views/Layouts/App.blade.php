@@ -1,6 +1,6 @@
 @php
     /* Se agrego para actualizar los permisos */
-    PermissionHelper::load();
+    //PermissionHelper::load();
 @endphp
 <!DOCTYPE html>
 <html lang="en">

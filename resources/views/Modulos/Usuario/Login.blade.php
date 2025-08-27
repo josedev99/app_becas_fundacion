@@ -25,7 +25,6 @@
   <!-- Template Main CSS File -->
   <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
   <link href="{{ asset('assets/css/input.css') }}" rel="stylesheet">
-  <link rel="stylesheet" href="{{ asset('assets/vendor/selectize/selectize.bootstrap5.css') }}">
   @stack('styles')
   <style>
     .form-control:focus {
@@ -109,17 +108,6 @@
                       </div>
                     </div>
                     <div class="col-12">
-                      <div class="input-group">
-                        <label for="" class="select-title">Empresa</label>
-                        <select class="form-select" name="empresa_id" id="empresa_id" required>
-                          <option value="">Seleccionar</option>
-                        </select>
-                        <span class="select-icon" title="Empresa" id="btn-add-cliente">
-                          <i class="bi bi-building-check"></i>
-                        </span>
-                      </div>
-                    </div>
-                    <div class="col-12">
                       <button class="btn btn-primary w-100 btn-sm" type="submit">INICIAR SESIÓN</button>
                     </div>
                   </form>
@@ -134,11 +122,6 @@
 
     </div>
   </main><!-- End #main -->
-  <!-- Template Main JS File -->
-  <script src="{{ asset('assets/vendor/jquery/jquery.min.js') }}"></script>
-  <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ asset('assets/vendor/axios/axios.min.js') }}"></script>
-  <script src="{{ asset('assets/vendor/selectize/selectize.min.js') }}"></script>
   <script src="{{ asset('app/modules/usuario/login.js') }}"></script>
 </body>
 
