@@ -11,19 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('becados', function (Blueprint $table) {
+        Schema::create('modulos', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre_completo',150);
-            $table->string('documento',25)->unique();
-            $table->string('fecha_nacimiento',15);
-            $table->string('direccion',200);
-            $table->string('telefono',15)->nullable();
-            $table->string('email',100)->nullable();
-            $table->string('telefono_emergencia',15)->nullable();
+            $table->string('clave',40);
+            $table->string('nombre',75);
+            $table->string('descripcion',150);
+            $table->string('estado',15);
             $table->unsignedBigInteger('usuario_id');
 
             $table->foreign('usuario_id')->references('id')->on('users');
-            $table->index('usuario_id');
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('becados');
+        Schema::dropIfExists('modulos');
     }
 };

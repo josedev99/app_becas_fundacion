@@ -24,11 +24,6 @@ class UserController extends Controller
             return redirect()->route('app.login.index');
         }
         $cuenta_id = Auth::user()->cuenta_id;
-        if(Auth::user()->categoria == "SuperAdmin"){
-            $empresas = Empresa::orderBy('id', 'desc')->get();
-        }else{
-            $empresas = Empresa::where('cuenta_id', $cuenta_id)->orderBy('id', 'desc')->get();
-        }
         return view('Modulos.Usuario.Index',compact('empresas'));
     }
     public function save(UserRequest $req){
