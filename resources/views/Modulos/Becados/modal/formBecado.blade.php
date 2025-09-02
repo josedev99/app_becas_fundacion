@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="col-sm-12 col-md-6 col-lg-3">
                                     <div class="content-input mb-2">
-                                        <input type="text" name="fecha_nacimiento" id="fecha_nacimiento" placeholder=" "
+                                        <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" placeholder=" "
                                             class="input">
                                         <label class="input-label">Fecha nacimiento</label>
                                     </div>
@@ -105,11 +105,11 @@
                                 </div>
                                 <div class="col-sm-12 col-md-3 col-lg-3">
                                     <div class="input-group mb-2">
-                                        <label for="" class="select-title">Estado (*)</label>
+                                        <label for="" class="select-title">Becas (*)</label>
                                         <select class="form-select" name="estado_user" id="estado_user">
                                             <option value="">Seleccionar</option>
-                                            <option value="Activo">Activo</option>
-                                            <option value="Desactivado">Desactivado</option>
+                                            <option value="Activo">Beca 1</option>
+                                            <option value="Desactivado">Beca 2</option>
                                         </select>
                                     </div>
                                 </div>
