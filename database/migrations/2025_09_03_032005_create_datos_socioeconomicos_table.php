@@ -11,15 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('datos_academicos', function (Blueprint $table) {
+        Schema::create('datos_socioeconomicos', function (Blueprint $table) {
             $table->id();
-            $table->string('nivel_educativo', 100);
-            $table->string('institucion', 150);
-            $table->string('carrera_grado', 50);
-            $table->decimal('promedio', 8,2);
-            $table->string('estado_academico', 50);
-            $table->string('fInicio',15);
-            $table->string('fFin',15);
+            $table->string('situacion_familiar', 100);
+            $table->decimal('ingresos', 8, 2);
+            $table->integer('cantidad_personas');
+            $table->string('necesidades', 150);
+            $table->string('comunidad',150);
             $table->unsignedBigInteger('estudiante_id');
             $table->unsignedBigInteger('user_id');
 
@@ -36,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('datos_academicos');
+        Schema::dropIfExists('datos_socioeconomicos');
     }
 };

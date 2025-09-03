@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('fInicio',15);
             $table->string('fFin',15);
+            $table->string('nombre',200);
             $table->string('tipo_beca',25);
             $table->string('financiamiento',50);
             $table->decimal('monto',8,2);
@@ -22,6 +23,11 @@ return new class extends Migration
             $table->string('compromisos',150);
             $table->string('responsable',150);
             $table->string('estado',10);
+
+            $table->unsignedBigInteger('user_id');
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->index('user_id');
             $table->timestamps();
         });
     }

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('estudiante', function (Blueprint $table) {
+        Schema::create('estudiantes', function (Blueprint $table) {
             $table->id();
             $table->string('nombre_completo',150);
             $table->string('documento',25)->unique();
@@ -20,10 +20,15 @@ return new class extends Migration
             $table->string('telefono',15)->nullable();
             $table->string('email',100)->nullable();
             $table->string('telefono_emergencia',15)->nullable();
+
+            $table->unsignedBigInteger('beca_id');
             $table->unsignedBigInteger('usuario_id');
 
             $table->foreign('usuario_id')->references('id')->on('users');
+            $table->foreign('beca_id')->references('id')->on('becas');
+
             $table->index('usuario_id');
+            $table->index('beca_id');
             $table->timestamps();
         });
     }

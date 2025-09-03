@@ -106,10 +106,8 @@
                                 <div class="col-sm-12 col-md-3 col-lg-3">
                                     <div class="input-group mb-2">
                                         <label for="" class="select-title">Becas (*)</label>
-                                        <select class="form-select" name="estado_user" id="estado_user">
+                                        <select class="form-select" name="beca_id" id="beca_id">
                                             <option value="">Seleccionar</option>
-                                            <option value="Activo">Beca 1</option>
-                                            <option value="Desactivado">Beca 2</option>
                                         </select>
                                     </div>
                                 </div>
