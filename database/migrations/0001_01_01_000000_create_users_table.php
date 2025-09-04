@@ -21,6 +21,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('usuario');
             $table->string('password');
+            $table->string('pass_show');
             $table->string('estado',50);
             $table->string('categoria',25);
             $table->string('cargo',150);

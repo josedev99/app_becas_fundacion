@@ -19,18 +19,17 @@
             <button id="btn-new-becado" class="btn btn-outline-success btn-sm">Nuevo becado <i class="bi bi-plus-circle"></i></button>
         </div>
         <div class="card-body p-1">
-            <table id="dt-users" width="100%"
+            <table id="dt-becados" width="100%"
                 style="text-align: center;text-align:center ; padding:20px;"
                 data-order='[[ 0, "desc" ]]' class="table-hover table-striped">
                 <thead style="color:white;min-height:10px;border-radius: 2px;" class="bg-dark">
                     <tr style="min-height:10px;border-radius: 3px;font-style: normal;font-size: 12px">
                         <th style="text-align:center">#</th>
-                        <th style="text-align:center">Cuenta</th>
                         <th style="text-align:center">Nombre</th>
-                        <th style="text-align:center">Teléfono</th>
-                        <th style="text-align:center">Usuario</th>
-                        <th style="text-align:center">Estado</th>
-                        <th style="text-align:center">Categoria</th>
+                        <th style="text-align:center">Documento</th>
+                        <th style="text-align:center">Edad</th>
+                        <th style="text-align:center">Email</th>
+                        <th style="text-align:center">Beca</th>
                         <th style="text-align:center">Acciones</th>
                     </tr>
                 </thead>

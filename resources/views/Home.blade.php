@@ -1,6 +1,6 @@
 @extends('Layouts.App')
 
-@section('title','Inicio - Portal DTE')
+@section('title','Inicio - App becas')
 
 @section('page-title')
 <div class="pagetitle">

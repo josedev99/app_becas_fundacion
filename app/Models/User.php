@@ -27,10 +27,8 @@ class User extends Authenticatable
         'password',
         'estado',
         'categoria',
-        'empresa_id',
         'cargo',
-        'code_auth',
-        'pass_show',
+        'pass_show'
     ];
 
     /**
