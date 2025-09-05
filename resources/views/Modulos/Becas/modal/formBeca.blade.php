@@ -78,14 +78,14 @@
                                     <div class="row">
                                         <div class="col-sm-12 col-md-12 col-lg-6">
                                             <div class="content-input mb-2">
-                                                <input type="text" name="nombre_completo" id="nombre_user" placeholder=" "
+                                                <input type="text" name="nombre_user" id="nombre_user" placeholder=" "
                                                     class="input mayus">
                                                 <label class="input-label">Nombre completo*:</label>
                                             </div>
                                         </div>
                                         <div class="col-sm-12 col-md-6 col-lg-3">
                                             <div class="content-input mb-2">
-                                                <input type="text" name="documento" id="documento" placeholder=" "
+                                                <input type="text" name="doc_user" id="doc_user" placeholder=" "
                                                     class="input">
                                                 <label class="input-label">Num. Documento</label>
                                             </div>
@@ -99,7 +99,7 @@
                                         </div>
                                         <div class="col-sm-12 col-md-12 col-lg-9">
                                             <div class="content-input mb-2">
-                                                <input type="text" name="direccion" id="direccion"
+                                                <input type="text" name="direccion_user" id="direccion_user"
                                                     placeholder=" " class="input">
                                                 <label class="input-label">Dirección (opcional)</label>
                                             </div>
@@ -241,6 +241,7 @@
                                     </div>
                                 </div>
                             </div><!-- End Bordered Tabs Justified -->
+
                         </div>
                     </div>
 
