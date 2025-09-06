@@ -120,7 +120,7 @@
                                         </div>
                                         <div class="col-sm-12 col-md-4 col-lg-3">
                                             <div class="content-input mb-2">
-                                                <input type="text" name="email_user" id="email_user" placeholder=" "
+                                                <input type="email" name="email_becado" id="email_becado" placeholder=" "
                                                     class="input">
                                                 <label class="input-label">Email*:</label>
                                             </div>

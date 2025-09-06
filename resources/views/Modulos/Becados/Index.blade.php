@@ -25,6 +25,7 @@
                 <thead style="color:white;min-height:10px;border-radius: 2px;" class="bg-dark">
                     <tr style="min-height:10px;border-radius: 3px;font-style: normal;font-size: 12px">
                         <th style="text-align:center">#</th>
+                        <th style="text-align:center">Fecha creación.</th>
                         <th style="text-align:center">Nombre</th>
                         <th style="text-align:center">Documento</th>
                         <th style="text-align:center">Edad</th>
@@ -41,4 +42,19 @@
 
 @push('scripts')
     <script src="{{ asset('app/modules/becado/index.js') }}?v={{ rand() }}"></script>
+    <script>
+        let telefono = new Cleave('#telefono', {
+            delimiter: '-',
+            blocks: [4, 4],
+        });
+        let contacto_emergencia = new Cleave('#contacto_emergencia', {
+            delimiter: '-',
+            blocks: [4, 4],
+        });
+        let documento = new Cleave('#documento', {
+            delimiter: '-',
+            blocks: [8, 1],
+        });
+        
+    </script>
 @endpush

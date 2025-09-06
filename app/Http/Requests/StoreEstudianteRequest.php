@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class StoreEstudianteRequest extends FormRequest
 {
@@ -19,13 +20,19 @@ class StoreEstudianteRequest extends FormRequest
     {
         return [
             // Datos personales (puedes ajustarlos si quieres obligatorios)
-            'nombre_completo'        => ['required', 'string', 'max:150'],
+            'nombre_completo'        => [
+                'required', 
+                'string', 
+                'max:150',
+                Rule::unique('estudiantes', 'nombre_completo')
+                    ->where(fn ($query) => $query->where('documento', $this->documento)),
+            ],
             'documento'           => ['required', 'string', 'max:50'],
-            'fecha_nacimiento'   => ['nullable', 'date'],
-            'direccion'     => ['nullable', 'string', 'max:250'],
+            'fecha_nacimiento'   => ['required', 'date'],
+            'direccion'     => ['required', 'string', 'max:250'],
             'telefono'           => ['required', 'string', 'max:15'],
             'contacto_emergencia'=> ['required', 'string', 'max:150'],
-            'email_user'         => ['required', 'email', 'max:150'],
+            'email_becado'         => ['required', 'email', 'max:150'],
             'beca_id'            => ['required', 'integer'],
 
             // Datos académicos (OBLIGATORIOS)
@@ -34,8 +41,8 @@ class StoreEstudianteRequest extends FormRequest
             'carrera'            => ['required', 'string', 'max:150'],
             'promedio'           => ['required', 'numeric', 'between:1,10'],
             'estado_academico'   => ['required', 'string', 'in:Activo,Graduado,Retirado'],
-            'fInicio_beca'       => ['nullable', 'date'],
-            'fFin_beca'          => ['nullable', 'date', 'after_or_equal:fInicio_beca'],
+            'fInicio_beca'       => ['required', 'date'],
+            'fFin_beca'          => ['required', 'date', 'after_or_equal:fInicio_beca'],
 
             // Datos socioeconómicos (OPCIONALES)
             'situacion_familiar'   => ['nullable', 'string', 'in:Nuclear,Monoparental,Tutor'],
@@ -51,11 +58,14 @@ class StoreEstudianteRequest extends FormRequest
         return [
             // Personales
             'nombre_completo.required'         => 'El nombre completo es obligatorio.',
+            'nombre_completo.unique'     => 'Ya existe un registro con ese nombre y documento.',
             'documento.required'         => 'El numero de documento es obligatorio.',
+            'fecha_nacimiento.required'         => 'La fecha de nacimiento es obligatorio.',
+            'direccion.required'         => 'La dirección es obligatorio.',
             'telefono.required'            => 'El teléfono es obligatorio.',
             'contacto_emergencia.required' => 'El contacto de emergencia es obligatorio.',
-            'email_user.required'          => 'El email es obligatorio.',
-            'email_user.email'             => 'El email debe ser válido.',
+            'email_becado.required'          => 'El email es obligatorio.',
+            'email_becado.email'             => 'El email debe ser válido.',
             'beca_id.required'             => 'Debe seleccionar una beca.',
 
             // Académicos

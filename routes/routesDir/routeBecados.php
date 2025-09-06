@@ -6,4 +6,6 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('/estudiante')->middleware('auth')->group(function(){
     Route::get('/', [BecadosController::class, 'index'])->name('becados.index');
     Route::post('/save', [BecadosController::class, 'saveEstudiante'])->name('becado.save');
+    Route::post('/listar', [BecadosController::class, 'listarEstudiantes'])->name('becado.listar');
+    
 });

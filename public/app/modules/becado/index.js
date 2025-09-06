@@ -2,6 +2,7 @@ const btnNewBecado = document.querySelector('#btn-new-becado');
 const formEstudiante = document.querySelector('#form-becado');
 
 document.addEventListener('DOMContentLoaded', (e)=> {
+    dataTable('dt-becados', route('becado.listar'));
     $("#beca_id").selectize();
     $("#nivel_educativo").selectize();
     $("#estado_academico").selectize();
