@@ -9,6 +9,7 @@ class Beca extends Model
     protected $fillable = [
         'fInicio',
         'fFin',
+        'nombre',
         'tipo_beca',
         'financiamiento',
         'monto',

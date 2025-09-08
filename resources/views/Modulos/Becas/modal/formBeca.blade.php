@@ -51,7 +51,7 @@
                     aria-label="Close"></button>
             </div>
             <div class="modal-body p-1">
-                <form id="form-becado" method="post">
+                <form id="form-beca" method="post">
                     <div class="card p-1 m-0">
                         <div class="card-body p-1">
                             <div class="row">
@@ -65,7 +65,7 @@
                                 <div class="col-sm-12 col-md-12 col-lg-4">
                                     <div class="input-group mb-2">
                                         <label for="" class="select-title">Tipo de beca (*)</label>
-                                        <select class="form-select" name="beca_id" id="beca_id">
+                                        <select class="form-select" name="tipo_beca" id="tipo_beca">
                                             <option value="">Seleccionar</option>
                                             <option value="Total">Total</option>
                                             <option value="Parcial">Parcial</option>
@@ -77,7 +77,7 @@
                                 <div class="col-sm-12 col-md-12 col-lg-4">
                                     <div class="input-group mb-2">
                                         <label for="" class="select-title">Financiamiento (*)</label>
-                                        <select class="form-select" name="beca_id" id="beca_id">
+                                        <select class="form-select" name="financiamiento" id="financiamiento">
                                             <option value="">Seleccionar</option>
                                             <option value="Donante">Donante</option>
                                             <option value="Empresa aliada">Empresa aliada</option>
@@ -88,7 +88,7 @@
                                 <div class="col-sm-12 col-md-12 col-lg-4">
                                     <div class="input-group mb-2">
                                         <label for="" class="select-title">Monto asignado(*)</label>
-                                        <select class="form-select" name="beca_id" id="beca_id">
+                                        <select class="form-select" name="plazo_monto" id="plazo_monto">
                                             <option value="">Seleccionar</option>
                                             <option value="Mensual">Mensual</option>
                                             <option value="Anual">Anual</option>
@@ -98,7 +98,7 @@
                                 <div class="col-sm-12 col-md-12 col-lg-4">
                                     <div class="input-group mb-2">
                                         <label for="" class="select-title">Forma de entrega(*)</label>
-                                        <select class="form-select" name="beca_id" id="beca_id">
+                                        <select class="form-select" name="forma_entrega" id="forma_entrega">
                                             <option value="">Seleccionar</option>
                                             <option value="Transferencia">Transferencia</option>
                                             <option value="Efectivo">Efectivo</option>
@@ -109,7 +109,7 @@
                                 <div class="col-sm-12 col-md-12 col-lg-4">
                                     <div class="input-group mb-2">
                                         <label for="" class="select-title">Compromisos(*)</label>
-                                        <select class="form-select" name="beca_id" id="beca_id">
+                                        <select class="form-select" name="compromiso" id="compromiso">
                                             <option value="">Seleccionar</option>
                                             <option value="Horas sociales">Horas sociales</option>
                                             <option value="Talleres">Talleres</option>
