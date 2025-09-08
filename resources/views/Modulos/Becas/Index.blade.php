@@ -16,7 +16,7 @@
     @include('Modulos.Becas.modal.formBeca')
     <div class="card p-1 m-0">
         <div class="card-header p-1">
-            <button id="btn-new-becado" class="btn btn-outline-success btn-sm">Nuevo beca <i class="bi bi-plus-circle"></i></button>
+            <button id="btn-new-beca" class="btn btn-outline-success btn-sm">Nuevo beca <i class="bi bi-plus-circle"></i></button>
         </div>
         <div class="card-body p-1">
             <table id="dt-becados" width="100%"
@@ -40,5 +40,5 @@
 @endsection
 
 @push('scripts')
-    <script src="{{ asset('app/modules/becado/index.js') }}?v={{ rand() }}"></script>
+    <script src="{{ asset('app/modules/beca/index.js') }}?v={{ rand() }}"></script>
 @endpush

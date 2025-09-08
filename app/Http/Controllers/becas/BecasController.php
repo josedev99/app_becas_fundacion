@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class BecasController extends Controller
 {
     public function index(){
-        return view();
+        return view('Modulos.Becas.Index');
     }
     public function getBecas(){
         return response()->json(Beca::orderBy('id','desc')->get());
