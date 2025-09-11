@@ -22,7 +22,7 @@ class BecasController extends Controller
     public function save(BecaRequest $request){
         $datos = $request->validated();
         $userId = Auth::user()->id;
-        $create_beca = Beca::create([
+        $datosDTO = [
             'fInicio' => date('Y-m-d'),
             'fFin' => date('Y-m-d'),
             'nombre' => trim($datos['nombre_beca']),
@@ -33,12 +33,20 @@ class BecasController extends Controller
             'compromisos' => $datos['compromiso'],
             'responsable' => strtoupper(trim($datos['encargado_beca'])),
             'estado' => 'Activo',
-            'user_id' => $userId,
-        ]);
+        ];
+        if((int)$request['record_id'] != 0){
+            $create_beca = Beca::where('id', $request['record_id'])->update($datosDTO);
+            $message = 'La beca se ha creado con exito.';
+        }else{
+            $create_beca = Beca::create(array_merge($datosDTO, [
+                'user_id' => $userId,
+            ]));
+            $message = 'La beca se ha actualizado con exito.';
+        }
         if($create_beca){
             return response()->json([
                 'status' => 'success',
-                'message' => 'La beca se ha creado con exito.'
+                'message' => $message
             ]);
         }
         return response()->json([
@@ -61,7 +69,7 @@ class BecasController extends Controller
     }
 
     protected function getDataBecasAll(){
-        return Beca::orderBy('id','DESC')->get();
+        return Beca::orderBy('id','ASC')->get();
     }
     public function listarBecas(){
         $datos = $this->getDataBecasAll();

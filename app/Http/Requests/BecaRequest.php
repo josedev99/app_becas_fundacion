@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rule;
 
 class BecaRequest extends FormRequest
@@ -27,8 +28,9 @@ class BecaRequest extends FormRequest
             'financiamiento'=> ['required', 'string', Rule::in(['Donante', 'Empresa aliada', 'Fondos internos'])],
             'plazo_monto'   => ['required', 'string', Rule::in(['Mensual', 'Anual'])],
             'forma_entrega' => ['required', 'string', Rule::in(['Transferencia', 'Efectivo', 'Insumos'])],
-            'compromiso'    => ['required', 'string', Rule::in(['Horas sociales', 'Talleres', 'Rendimiento minimo'])],
+            'compromiso'    => ['required', 'string'],
             'encargado_beca'=> ['nullable', 'string', 'max:100'],
+            'record_id'      => ['nullable', 'integer'],
         ];
     }
 
@@ -52,5 +54,26 @@ class BecaRequest extends FormRequest
             'compromiso.in'           => 'Compromiso inválido.',
             'encargado_beca.max'      => 'El nombre del encargado no puede exceder los 100 caracteres.',
         ];
+    }
+
+    protected function prepareForValidation(): void
+    {
+        $this->merge([
+            'record_id' => $this->filled('record_id')
+                ? $this->decryptId($this->input('record_id'))
+                : 0,
+        ]);
+    }
+
+    /**
+     * Desencriptar ID de forma segura.
+     */
+    private function decryptId($value): int
+    {
+        try {
+            return (int) Crypt::decrypt($value);
+        } catch (\Exception $e) {
+            return 0;
+        }
     }
 }

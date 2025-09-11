@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', ()=>{
     });
     if(btnNewBeca){
         btnNewBeca.addEventListener('click', ()=>{
+            formBeca.removeAttribute('record_id');
             showModalNewBeca();
         })
     }
@@ -39,8 +40,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 allowEscapeKey: false,
                 showConfirmButton: false,
             });
+            let record_id = formBeca.getAttribute('record_id');
+            if(record_id){
+                formData.append('record_id', record_id);
+            }
             axios.post(route('becas.save'), formData)
             .then((response) => {
+                console.log(response);
                 Swal.close();
                 let data = response.data;
                 if(data.status === "success"){
@@ -67,8 +73,8 @@ document.addEventListener('DOMContentLoaded', ()=>{
                 }
                 console.log(response);
             }).catch((err) => {
-                Swal.close();
                 console.log(err);
+                Swal.close();
                 let errors = err.response?.data?.errors;
                 if (errors) {
                     for (let [key, arrayMessages] of Object.entries(errors)) {
@@ -103,10 +109,24 @@ function showModalNewBeca(){
 function editBeca(tag){
     let record_id = tag.dataset.record_id;
     formBeca.setAttribute('record_id', record_id);
-    showModalNewBeca();
+    Swal.fire({
+        title: 'Solicitud en proceso...',
+        html: `
+            <div class="d-flex flex-column align-items-center">
+                <div class="spinner-border text-success mb-3" role="status" style="width: 3rem; height: 3rem;">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <span>Por favor espere</span>
+            </div>
+        `,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+    });
     axios.post(route('beca.edit'), {record_id: record_id})
     .then((response)=>{
-        console.log(response)
+        Swal.close();
+        showModalNewBeca();
         let data = response.data;
         $("#tipo_beca")[0].selectize.setValue(data.result.tipo_beca);
         $("#financiamiento")[0].selectize.setValue(data.result.financiamiento);
@@ -119,6 +139,7 @@ function editBeca(tag){
 
     })
     .catch((err)=>{
+        Swal.close();
         console.log(err);
     })
     console.log(record_id);
