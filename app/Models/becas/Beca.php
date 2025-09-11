@@ -12,7 +12,7 @@ class Beca extends Model
         'nombre',
         'tipo_beca',
         'financiamiento',
-        'monto',
+        'plazo_monto',
         'forma_entrega',
         'compromisos',
         'responsable',

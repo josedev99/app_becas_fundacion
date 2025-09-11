@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nombre',200);
             $table->string('tipo_beca',25);
             $table->string('financiamiento',50);
-            $table->decimal('monto',8,2);
+            $table->string('plazo_monto',50);
             $table->string('forma_entrega',25);
             $table->string('compromisos',150);
             $table->string('responsable',150);

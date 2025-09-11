@@ -25,6 +25,7 @@
                 <thead style="color:white;min-height:10px;border-radius: 2px;" class="bg-dark">
                     <tr style="min-height:10px;border-radius: 3px;font-style: normal;font-size: 12px">
                         <th style="text-align:center">#</th>
+                        <th style="text-align:center">Fecha creación</th>
                         <th style="text-align:center">Nombre</th>
                         <th style="text-align:center">Tipo</th>
                         <th style="text-align:center">Financiamiento</th>
