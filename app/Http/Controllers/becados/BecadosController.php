@@ -5,7 +5,9 @@ namespace App\Http\Controllers\becados;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEstudianteRequest;
 use App\Services\Estudiante\EstudianteService;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class BecadosController extends Controller
 {
@@ -21,5 +23,14 @@ class BecadosController extends Controller
 
     public function listarEstudiantes(EstudianteService $service){
         return response()->json($service->getDatosEstudianteTabla());
+    }
+
+    public function getEstudianteById(Request $request,EstudianteService $service){
+        try{
+            $record_id = Crypt::decrypt($request->record_id);
+        }catch(Exception $e){
+            $record_id = 0;
+        }
+        return response()->json($service->getBecadoById($record_id));
     }
 }

@@ -73,9 +73,45 @@ function getBecas(){
         data.forEach(element => {
             becas_selectize.addOption({
                 value: element.id,
-                text: element.tipo_beca
+                text: `${element.nombre} - Tipo beca: ${element.tipo_beca}`
             });
         });
+        console.log(response);
+    }).catch((err)=>{
+        console.log(err);
+    })
+}
+
+function editEstudiante(tag){
+    getBecas();
+    let record_id = tag.dataset.record_id;
+    $("#modal-form-becado").modal('show');
+    axios.post(route('becado.edit'), {record_id: record_id})
+    .then((response)=>{
+        let data = response.data;
+        //Elementos Estudiante
+        document.getElementById('nombre_completo').value = data.nombre_completo;
+        document.getElementById('documento').value = data.documento;
+        document.getElementById('fecha_nacimiento').value = data.fecha_nacimiento;
+        document.getElementById('direccion').value = data.direccion;
+        document.getElementById('telefono').value = data.telefono;
+        document.getElementById('contacto_emergencia').value = data.telefono_emergencia;
+        document.getElementById('email_becado').value = data.email;
+        $("#beca_id")[0].selectize.setValue(data.beca_id);
+        //Datos academicos
+        $("#nivel_educativo")[0].selectize.setValue(data.nivel_educativo);
+        document.getElementById('institucion').value      = data.institucion;
+        document.getElementById('carrera').value          = data.carrera_grado;
+        document.getElementById('promedio').value         = data.promedio;
+        $("#estado_academico")[0].selectize.setValue(data.estado_academico);
+        document.getElementById('fInicio_beca').value     = data.fInicio;
+        document.getElementById('fFin_beca').value        = data.fFin;
+        //Datos socioeconomicos
+        $("#situacion_familiar")[0].selectize.setValue(data.situacion_familiar);
+        document.getElementById('ingreso_aprox').value       = data.ingresos;
+        document.getElementById('numero_personas').value     = data.cantidad_personas;
+        document.getElementById('necesidades_esp').value     = data.necesidades;
+        document.getElementById('comunidad_residencia').value= data.comunidad;
         console.log(response);
     }).catch((err)=>{
         console.log(err);

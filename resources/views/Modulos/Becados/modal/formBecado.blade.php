@@ -78,7 +78,7 @@
                                     <div class="row">
                                         <div class="col-sm-12 col-md-12 col-lg-6">
                                             <div class="content-input mb-2">
-                                                <input type="text" name="nombre_completo" id="nombre_user" placeholder=" "
+                                                <input type="text" name="nombre_completo" id="nombre_completo" placeholder=" "
                                                     class="input mayus">
                                                 <label class="input-label">Nombre completo*:</label>
                                             </div>

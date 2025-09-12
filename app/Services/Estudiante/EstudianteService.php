@@ -132,7 +132,7 @@ class EstudianteService{
             $sub_array[] = $row->email;
             $sub_array[] = $row->beca;
             $sub_array[] = '
-            <button onclick="editUser(this)" data-record_id="'. encrypt($row->id) .'" title="Editar usuario" class="btn btn-outline-info btn-sm" style="border:none;font-size:18px"><i class="bi bi-person-gear"></i></button>
+            <button onclick="editEstudiante(this)" data-record_id="'. encrypt($row->id) .'" title="Editar usuario" class="btn btn-outline-info btn-sm" style="border:none;font-size:18px"><i class="bi bi-person-gear"></i></button>
             <button onclick="destroyUser(this)" data-record_id="'. encrypt($row->id) .'" title="Remover usuario" class="btn btn-outline-danger btn-sm" style="border:none;font-size:18px"><i class="bi bi-person-check"></i></button>
             ';
 
@@ -152,5 +152,14 @@ class EstudianteService{
     //Obtener edad
     protected function getEdad($fechaNacimiento = ''){
         return Carbon::parse($fechaNacimiento)->age;
+    }
+
+    public function getBecadoById(int $estudiante_id){
+        return DB::table('estudiantes AS e')
+            ->join('datos_academicos AS da','da.estudiante_id','=', 'e.id')
+            ->join('datos_socioeconomicos AS ds', 'ds.estudiante_id', '=','e.id')
+            ->where('e.id', $estudiante_id)
+            ->select('e.*','da.id AS academica_id', 'da.nivel_educativo', 'da.institucion', 'da.carrera_grado', 'da.promedio', 'da.estado_academico','da.fInicio','da.fFin', 'ds.id AS economico_id', 'ds.situacion_familiar', 'ds.ingresos','ds.cantidad_personas', 'ds.necesidades', 'ds.comunidad')
+            ->first();
     }
 }
