@@ -29,7 +29,7 @@ class EstudianteService{
                 $datos['beca_id'],
                 $user_id
             );
-            $insertEstudiante = $this->saveEstudiante($datosEstudiante);
+            $insertEstudiante = $this->saveOrUpdateEstudiante($datosEstudiante, $datos['record_id']);
             if($insertEstudiante){
                 $datosAcademico = new AcademicoDTO(
                     $datos['nivel_educativo'],
@@ -42,22 +42,24 @@ class EstudianteService{
                     $insertEstudiante->id,
                     $user_id,
                 );
-                $inserAcademico = $this->saveDatosAcedemicos($datosAcademico);
+                $inserAcademico = $this->saveOrUpdateDatosAcedemicos($datosAcademico, $datos['record_id']);
                 $datosSocioEconomico = new SocioEconomicoDTO(
-                    $datos['situacion_familiar'],
-                    $datos['ingreso_aprox'],
-                    $datos['numero_personas'],
-                    trim($datos['necesidades_esp']),
-                    trim($datos['comunidad_residencia']),
+                    !empty($datos['situacion_familiar']) ? $datos['situacion_familiar'] : '',
+                    !empty($datos['ingreso_aprox'])      ? $datos['ingreso_aprox']      : '',
+                    !empty($datos['numero_personas'])    ? $datos['numero_personas']    : '',
+                    !empty($datos['necesidades_esp'])    ? trim($datos['necesidades_esp']) : '',
+                    !empty($datos['comunidad_residencia']) ? trim($datos['comunidad_residencia']) : '',
                     $insertEstudiante->id,
-                    $user_id,
+                    $user_id
                 );
-                $insertSocioEconomico = $this->saveSocioEconomico($datosSocioEconomico);
+                $insertSocioEconomico = $this->saveOrUpdateSocioEconomico($datosSocioEconomico, $datos['record_id']);
                 if($inserAcademico && $insertSocioEconomico){
                     DB::commit();
                     return [
                         'status' => 'success',
-                        'message' => 'El estudiante se ha creado con exito.'
+                        'message' => ($datos['record_id'] == 0)
+                            ? 'El estudiante ha sido registrado exitosamente.'
+                            : 'La información del estudiante se ha actualizado correctamente.'
                     ];
                 }
             }
@@ -73,50 +75,67 @@ class EstudianteService{
             ];
         }
     }
-    public function saveEstudiante(EstudianteDTO $datos){
-        return $this->becadoModel->create([
-            'nombre_completo' => $datos->nombre_completo,
-            'documento' => $datos->documento,
-            'fecha_nacimiento' => $datos->fecha_nacimiento,
-            'direccion' => $datos->direccion,
-            'telefono' => $datos->telefono,
-            'email' => $datos->email,
-            'telefono_emergencia' => $datos->telefono_emergencia,
-            'beca_id' => $datos->beca_id,
-            'usuario_id' => $datos->usuario_id,
-        ]);
+    public function saveOrUpdateEstudiante(EstudianteDTO $datos, int $record_id = 0){
+        return $this->becadoModel->updateOrCreate(
+            [
+                'id' => $record_id
+            ],[
+                'nombre_completo' => $datos->nombre_completo,
+                'documento' => $datos->documento,
+                'fecha_nacimiento' => $datos->fecha_nacimiento,
+                'direccion' => $datos->direccion,
+                'telefono' => $datos->telefono,
+                'email' => $datos->email,
+                'telefono_emergencia' => $datos->telefono_emergencia,
+                'beca_id' => $datos->beca_id,
+            ] + (
+                $record_id == 0 ? ['usuario_id' => $datos->usuario_id] : []
+            )
+        );
     }
 
-    public function saveDatosAcedemicos(AcademicoDTO $datos){
-        return DatosAcademicos::create([
-            'nivel_educativo' => $datos->nivel_educativo,
-            'institucion' => $datos->institucion,
-            'carrera_grado' => $datos->carrera_grado,
-            'promedio' => $datos->promedio,
-            'estado_academico' => $datos->estado_academico,
-            'fInicio' => $datos->fInicio,
-            'fFin' => $datos->fFin,
-            'estudiante_id' => $datos->estudiante_id,
-            'user_id' => $datos->user_id,
-        ]);
+    public function saveOrUpdateDatosAcedemicos(AcademicoDTO $datos, int $estudiante_id = 0){
+        return DatosAcademicos::updateOrcreate([
+                "estudiante_id" => $estudiante_id
+            ],[
+                'nivel_educativo' => $datos->nivel_educativo,
+                'institucion' => $datos->institucion,
+                'carrera_grado' => $datos->carrera_grado,
+                'promedio' => $datos->promedio,
+                'estado_academico' => $datos->estado_academico,
+                'fInicio' => $datos->fInicio,
+                'fFin' => $datos->fFin,
+            ] + (
+                $estudiante_id == 0 ? [
+                    'estudiante_id' => $datos->estudiante_id,
+                    'user_id' => $datos->user_id
+                ] : []
+            )
+        );
     }
 
-    public function saveSocioEconomico(SocioEconomicoDTO $datos){
-        return DatosSocioeconomicos::create([
-            'situacion_familiar' => $datos->situacion_familiar,
-            'ingresos' => $datos->ingresos,
-            'cantidad_personas' => $datos->cantidad_personas,
-            'necesidades' => $datos->necesidades,
-            'comunidad' => $datos->comunidad,
-            'estudiante_id' => $datos->estudiante_id,
-            'user_id' => $datos->user_id,
-        ]);
+    public function saveOrUpdateSocioEconomico(SocioEconomicoDTO $datos, int $estudiante_id = 0){
+        return DatosSocioeconomicos::updateOrcreate([
+                "estudiante_id" => $estudiante_id
+            ],[
+                'situacion_familiar' => $datos->situacion_familiar,
+                'ingresos' => $datos->ingresos,
+                'cantidad_personas' => $datos->cantidad_personas,
+                'necesidades' => $datos->necesidades,
+                'comunidad' => $datos->comunidad,
+            ] + (
+                $estudiante_id == 0 ? [
+                    'estudiante_id' => $datos->estudiante_id,
+                    'user_id' => $datos->user_id
+                ] : []
+            )
+        );
     }
     //Listar datos de estudiantes
     public function getDatosEstudianteTabla(){
         $datos = DB::table('estudiantes AS e')
             ->join('becas AS b','b.id','=','e.beca_id')
-            ->select('e.id','e.nombre_completo','e.documento', 'e.fecha_nacimiento', 'e.email',DB::raw('CONCAT(b.nombre, " ",b.tipo_beca) as beca'), 'e.created_at')
+            ->select('e.id','e.nombre_completo','e.documento', 'e.fecha_nacimiento', 'e.email','b.nombre','b.tipo_beca', 'e.created_at')
             ->orderBy('e.id','DESC')
             ->get();
 
@@ -126,11 +145,11 @@ class EstudianteService{
             $sub_array = array();
             $sub_array[] = $contador;
             $sub_array[] = date('d/m/Y H:i:s A',strtotime($row->created_at));
-            $sub_array[] = $row->nombre_completo;
+            $sub_array[] = ucwords(strtolower($row->nombre_completo));
             $sub_array[] = $row->documento;
             $sub_array[] = $this->getEdad($row->fecha_nacimiento);
             $sub_array[] = $row->email;
-            $sub_array[] = $row->beca;
+            $sub_array[] = ucfirst(strtolower($row->nombre)) . ' - ' . ucfirst($row->tipo_beca);
             $sub_array[] = '
             <button onclick="editEstudiante(this)" data-record_id="'. encrypt($row->id) .'" title="Editar usuario" class="btn btn-outline-info btn-sm" style="border:none;font-size:18px"><i class="bi bi-person-gear"></i></button>
             <button onclick="destroyUser(this)" data-record_id="'. encrypt($row->id) .'" title="Remover usuario" class="btn btn-outline-danger btn-sm" style="border:none;font-size:18px"><i class="bi bi-person-check"></i></button>

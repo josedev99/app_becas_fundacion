@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', (e)=> {
     if(btnNewBecado){
         btnNewBecado.addEventListener('click', (e)=>{
             e.preventDefault();
+            resetForm();
             //Abrir modal
             $("#modal-form-becado").modal('show');
             getBecas();
@@ -34,9 +35,31 @@ document.addEventListener('DOMContentLoaded', (e)=> {
                 allowEscapeKey: false,
                 showConfirmButton: false,
             });
+            let record_id = formEstudiante.getAttribute('data-record_id');
+            if(record_id){
+                console.log(record_id);
+                formData.append('record_id', record_id);
+            }
             axios.post(route('becado.save'),formData)
             .then((response) => {
+                console.log(response);
                 Swal.close();
+                let data = response.data;
+                if(data.status === "success"){
+                    Swal.fire({
+                        title: "Creado",
+                        text: data.message,
+                        icon: "success"
+                    });
+                    resetForm();
+                    $("#dt-becados").DataTable().ajax.reload(null,false);
+                }else{
+                    Swal.fire({
+                        title: "Atención",
+                        text: data.message,
+                        icon: "error"
+                    });
+                }
                 console.log(response);
             }).catch((err) => {
                 Swal.close();
@@ -63,9 +86,32 @@ document.addEventListener('DOMContentLoaded', (e)=> {
     }
 })
 
+function resetForm(){
+    formEstudiante.reset();
+    $("#modal-form-becado").modal('hide');
+    $("#beca_id")[0].selectize.clear();
+    $("#nivel_educativo")[0].selectize.clear();
+    $("#situacion_familiar")[0].selectize.clear();
+}
+
 function getBecas(){
+    Swal.fire({
+        title: 'Solicitud en proceso...',
+        html: `
+            <div class="d-flex flex-column align-items-center">
+                <div class="spinner-border text-success mb-3" role="status" style="width: 3rem; height: 3rem;">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+                <span>Por favor espere</span>
+            </div>
+        `,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        showConfirmButton: false,
+    });
     axios.post(route('becas.obtener'))
     .then((response)=>{
+        Swal.close();
         let data = response.data;
         let becas_selectize = $("#beca_id")[0].selectize;
         becas_selectize.clear();
@@ -78,6 +124,7 @@ function getBecas(){
         });
         console.log(response);
     }).catch((err)=>{
+        Swal.close();
         console.log(err);
     })
 }
@@ -88,6 +135,7 @@ function editEstudiante(tag){
     $("#modal-form-becado").modal('show');
     axios.post(route('becado.edit'), {record_id: record_id})
     .then((response)=>{
+        formEstudiante.setAttribute('data-record_id', record_id);
         let data = response.data;
         //Elementos Estudiante
         document.getElementById('nombre_completo').value = data.nombre_completo;

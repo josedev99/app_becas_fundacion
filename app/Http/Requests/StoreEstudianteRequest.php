@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rule;
 
 class StoreEstudianteRequest extends FormRequest
@@ -16,18 +17,42 @@ class StoreEstudianteRequest extends FormRequest
         return Auth::check() ? true: false;
     }
 
+    
+    public function prepareForValidation(): void
+    {
+        if ($this->has('record_id') && $this->record_id !== null && $this->record_id !== '') {
+            try {
+                $this->merge([
+                    'record_id' => Crypt::decrypt($this->record_id)
+                ]);
+            } catch (\Exception $e) {
+                $this->merge(['record_id' => 0]);
+            }
+        } else {
+            $this->merge(['record_id' => 0]);
+        }
+    }
+
     public function rules(): array
     {
+        $recordId = (int)$this->record_id;
         return [
-            // Datos personales (puedes ajustarlos si quieres obligatorios)
-            'nombre_completo'        => [
-                'required', 
-                'string', 
+            'record_id' => ['integer'],
+
+            'nombre_completo' => [
+                'required',
+                'string',
                 'max:150',
                 Rule::unique('estudiantes', 'nombre_completo')
-                    ->where(fn ($query) => $query->where('documento', $this->documento)),
+                    ->where(fn ($q) => $q->where('documento', $this->documento))
+                    ->ignore($recordId)
             ],
-            'documento'           => ['required', 'string', 'max:50'],
+            'documento' => [
+                'required', 
+                'string', 
+                'max:50',
+                Rule::unique('estudiantes', 'documento')->ignore($recordId),
+            ],
             'fecha_nacimiento'   => ['required', 'date'],
             'direccion'     => ['required', 'string', 'max:250'],
             'telefono'           => ['required', 'string', 'max:15'],
