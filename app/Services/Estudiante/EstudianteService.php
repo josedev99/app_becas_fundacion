@@ -45,8 +45,8 @@ class EstudianteService{
                 $inserAcademico = $this->saveOrUpdateDatosAcedemicos($datosAcademico, $datos['record_id']);
                 $datosSocioEconomico = new SocioEconomicoDTO(
                     !empty($datos['situacion_familiar']) ? $datos['situacion_familiar'] : '',
-                    !empty($datos['ingreso_aprox'])      ? $datos['ingreso_aprox']      : '',
-                    !empty($datos['numero_personas'])    ? $datos['numero_personas']    : '',
+                    !empty($datos['ingreso_aprox'])      ? $datos['ingreso_aprox']      : 0.00,
+                    !empty($datos['numero_personas'])    ? $datos['numero_personas']    : 0,
                     !empty($datos['necesidades_esp'])    ? trim($datos['necesidades_esp']) : '',
                     !empty($datos['comunidad_residencia']) ? trim($datos['comunidad_residencia']) : '',
                     $insertEstudiante->id,
@@ -136,7 +136,7 @@ class EstudianteService{
         $datos = DB::table('estudiantes AS e')
             ->join('becas AS b','b.id','=','e.beca_id')
             ->select('e.id','e.nombre_completo','e.documento', 'e.fecha_nacimiento', 'e.email','b.nombre','b.tipo_beca', 'e.created_at')
-            ->orderBy('e.id','DESC')
+            ->orderBy('e.id','ASC')
             ->get();
 
         $contador = 1;

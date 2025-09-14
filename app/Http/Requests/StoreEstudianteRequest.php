@@ -72,7 +72,7 @@ class StoreEstudianteRequest extends FormRequest
             // Datos socioeconómicos (OPCIONALES)
             'situacion_familiar'   => ['nullable', 'string', 'in:Nuclear,Monoparental,Tutor'],
             'ingreso_aprox'        => ['nullable', 'numeric', 'min:0'],
-            'numero_personas'      => ['nullable', 'integer', 'min:1'],
+            'numero_personas'      => ['nullable', 'integer', 'min:0'],
             'necesidades_esp'      => ['nullable', 'string', 'max:250'],
             'comunidad_residencia' => ['nullable', 'string', 'max:250'],
         ];
