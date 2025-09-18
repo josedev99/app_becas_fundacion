@@ -14,6 +14,7 @@ class Seguimiento extends Model
         'estado_beca',
         'proridad',
         'fecha_proximo',
+        'responsable_seguimiento',
         'estudiante_id',
         'user_id',
     ];

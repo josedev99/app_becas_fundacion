@@ -9,8 +9,12 @@ Route::prefix('/estudiante')->middleware('auth')->group(function(){
     Route::post('/save', [BecadosController::class, 'saveEstudiante'])->name('becado.save');
     Route::post('/listar', [BecadosController::class, 'listarEstudiantes'])->name('becado.listar');
     Route::post('/editar',[BecadosController::class, 'getEstudianteById'])->name('becado.edit');
+    
+    Route::post('/obtener-todos',[BecadosController::class, 'getBecadosAll'])->name('becado.getAll');
 });
 
 Route::prefix('/seguimiento')->middleware('auth')->group(function(){
     Route::get('/estudiante', [SeguimientoController::class, 'index'])->name('seguimiento.index');
+    Route::post('/save', [SeguimientoController::class, 'saveSeguimiento'])->name('seguimiento.save');
+    Route::post('/listar', [SeguimientoController::class, 'listarSeguimientos'])->name('seguimiento.listar');
 });

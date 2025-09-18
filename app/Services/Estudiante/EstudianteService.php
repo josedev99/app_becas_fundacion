@@ -181,4 +181,8 @@ class EstudianteService{
             ->select('e.*','da.id AS academica_id', 'da.nivel_educativo', 'da.institucion', 'da.carrera_grado', 'da.promedio', 'da.estado_academico','da.fInicio','da.fFin', 'ds.id AS economico_id', 'ds.situacion_familiar', 'ds.ingresos','ds.cantidad_personas', 'ds.necesidades', 'ds.comunidad')
             ->first();
     }
+
+    public function getBecadosAll(){
+        return Becados::select('id','nombre_completo','documento')->orderBy('id','DESC')->get();
+    }
 }

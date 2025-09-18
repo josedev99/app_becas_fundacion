@@ -79,8 +79,8 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="content-input mb-2">
+                                        <input type="text" name="responsable_seguimiento" id="responsable_seguimiento" class="input mayus" placeholder=" ">
                                         <label for="responsable_seguimiento" class="input-label">Responsable*</label>
-                                        <input type="text" name="responsable_seguimiento" id="responsable_seguimiento" class="input" placeholder=" ">
                                     </div>
                                 </div>
                             </div>
@@ -139,7 +139,7 @@
                                     <div class="content-input mb-2">
                                         <input type="date" name="fecha_proximo" id="fecha_proximo" placeholder=" "
                                             class="input">
-                                        <label class="input-label">Próximo seguimiento</label>
+                                        <label class="input-label">Próx. Seguimiento(opcional)</label>
                                     </div>
                                 </div>
                             </div>

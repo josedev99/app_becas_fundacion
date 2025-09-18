@@ -33,4 +33,8 @@ class BecadosController extends Controller
         }
         return response()->json($service->getBecadoById($record_id));
     }
+
+    public function getBecadosAll(EstudianteService $service){
+        return response()->json($service->getBecadosAll());
+    }
 }

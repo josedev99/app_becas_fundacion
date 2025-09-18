@@ -19,14 +19,14 @@
             <button id="btn-new-seguimiento" class="btn btn-outline-success btn-sm">Nuevo seguimiento <i class="bi bi-plus-circle"></i></button>
         </div>
         <div class="card-body p-1">
-            <table id="dt-becados" width="100%"
+            <table id="dt-seguimiento" width="100%"
                 style="text-align: center;text-align:center ; padding:20px;"
                 data-order='[[ 0, "desc" ]]' class="table-hover table-striped">
                 <thead style="color:white;min-height:10px;border-radius: 2px;" class="bg-dark">
                     <tr style="min-height:10px;border-radius: 3px;font-style: normal;font-size: 12px">
                         <th style="text-align:center">#</th>
                         <th style="text-align:center">Nombre</th>
-                        <th style="text-align:center">Ultimo seguimiento.</th>
+                        <th style="text-align:center">Ultimo seguimiento</th>
                         <th style="text-align:center">Estado</th>
                         <th style="text-align:center">Prioridad</th>
                         <th style="text-align:center">Responsable</th>
