@@ -59,6 +59,23 @@ document.addEventListener('DOMContentLoaded', (e)=> {
             }).catch((err) => {
                 Swal.close();
                 console.log(err);
+                let errors = err.response?.data?.errors;
+                if (errors) {
+                    for (let [key, arrayMessages] of Object.entries(errors)) {
+                        let messageError = arrayMessages[0];
+                        Swal.fire({
+                            title: "Error",
+                            text: messageError,
+                            icon: "error"
+                        }); return;
+                    }
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: 'Ha ocurrido un error inesperado. Por favor, inténtelo nuevamente.',
+                        icon: "error"
+                    });
+                }
             });
         })
     }
