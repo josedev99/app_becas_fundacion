@@ -64,8 +64,8 @@ class SeguimientoService{
             $sub_array[] = $row->proridad;
             $sub_array[] = ucfirst(strtolower($row->responsable_seguimiento));
             $sub_array[] = '
-            <button onclick="editEstudiante(this)" data-record_id="'. encrypt($row->id) .'" title="Editar usuario" class="btn btn-outline-info btn-sm" style="border:none;font-size:18px"><i class="bi bi-person-gear"></i></button>
-            <button onclick="destroyUser(this)" data-record_id="'. encrypt($row->id) .'" title="Remover usuario" class="btn btn-outline-danger btn-sm" style="border:none;font-size:18px"><i class="bi bi-person-check"></i></button>
+            <button onclick="editEstudiante(this)" data-record_id="'. encrypt($row->id) .'" title="Editar usuario" class="btn btn-outline-info btn-sm" style="border:none;font-size:18px"><i class="bi bi-eye"></i></button>
+            <button onclick="destroyUser(this)" data-record_id="'. encrypt($row->id) .'" title="Remover usuario" class="btn btn-outline-danger btn-sm" style="border:none;font-size:18px"><i class="bi bi-x-circle"></i></button>
             ';
 
             $data[] = $sub_array;

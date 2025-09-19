@@ -14,6 +14,7 @@
 @endsection
 @section('content')
     @include('Modulos.Seguimiento.modal.formSeguimiento')
+    @include('Modulos.Seguimiento.modal.showDetailsSegui')
     <div class="card p-1 m-0">
         <div class="card-header p-1">
             <button id="btn-new-seguimiento" class="btn btn-outline-success btn-sm">Nuevo seguimiento <i class="bi bi-plus-circle"></i></button>
