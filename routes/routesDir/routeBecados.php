@@ -17,4 +17,5 @@ Route::prefix('/seguimiento')->middleware('auth')->group(function(){
     Route::get('/estudiante', [SeguimientoController::class, 'index'])->name('seguimiento.index');
     Route::post('/save', [SeguimientoController::class, 'saveSeguimiento'])->name('seguimiento.save');
     Route::post('/listar', [SeguimientoController::class, 'listarSeguimientos'])->name('seguimiento.listar');
+    Route::post('/show', [SeguimientoController::class, 'showDetail'])->name('seguimiento.detalle');
 });

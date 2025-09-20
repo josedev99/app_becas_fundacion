@@ -1,6 +1,7 @@
 <?php
 namespace App\Services\Estudiante;
 
+use App\Models\becados\Becados;
 use App\Models\becados\Seguimiento;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -64,8 +65,8 @@ class SeguimientoService{
             $sub_array[] = $row->proridad;
             $sub_array[] = ucfirst(strtolower($row->responsable_seguimiento));
             $sub_array[] = '
-            <button onclick="editEstudiante(this)" data-record_id="'. encrypt($row->id) .'" title="Editar usuario" class="btn btn-outline-info btn-sm" style="border:none;font-size:18px"><i class="bi bi-eye"></i></button>
-            <button onclick="destroyUser(this)" data-record_id="'. encrypt($row->id) .'" title="Remover usuario" class="btn btn-outline-danger btn-sm" style="border:none;font-size:18px"><i class="bi bi-x-circle"></i></button>
+                <button onclick="showDetails(this)" data-record_id="'. encrypt($row->id) .'" title="Editar usuario" class="btn btn-outline-info btn-sm" style="border:none;font-size:18px"><i class="bi bi-eye"></i></button>
+                <button onclick="deleteSeguimiento(this)" data-record_id="'. encrypt($row->id) .'" title="Remover usuario" class="btn btn-outline-danger btn-sm" style="border:none;font-size:18px"><i class="bi bi-x-circle"></i></button>
             ';
 
             $data[] = $sub_array;
@@ -79,5 +80,21 @@ class SeguimientoService{
             "aaData" => $data
         );
         return $results;
+    }
+
+    public function getDetalleById(int $id = 0){
+        $seguimientoArray = Seguimiento::where('id', $id)->first();
+        if($seguimientoArray){
+            $estudiante = DB::table('estudiantes AS e')
+                ->join('datos_academicos AS a','a.estudiante_id','=','e.id')
+                ->join('becas AS b', 'b.id', '=', 'e.beca_id')
+                ->where('e.id', $seguimientoArray['estudiante_id'])
+                ->select('e.nombre_completo','e.documento', 'b.nombre','b.tipo_beca', 'a.carrera_grado','a.created_at')
+                ->first();
+            $estudiante->created_at = date('d/m/Y H:i:s',strtotime($estudiante->created_at));
+            $estudiante->seguimiento = $seguimientoArray;
+            return $estudiante;
+        }
+        return [];
     }
 }
