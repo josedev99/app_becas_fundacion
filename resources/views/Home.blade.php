@@ -53,33 +53,75 @@
 <h1>Bienvenido {{ Auth()->user()->nombre }}</h1>
 
 <div id="dashboard" class="tab-content">
-    <div class="row">
-        <div class="col-sm-12 col-md-3">
-            <div class="card p-1 mb-2 mx-0" style="text-align: center;">
-                <h3 style="font-size: 18px"><i class="bi bi-people-fill"></i> Becados</h3>
-                <div style="font-size: 30px; color: #667eea; font-weight: bold; margin: 0px 0;">45</div>
-                <p style="color: #666;">Total de becados</p>
+    <div class="container my-4">
+        <div class="row g-3">
+            <!-- Número total de becados -->
+            <div class="col-12 col-md-3">
+                <div class="card shadow-sm text-center border-0 p-3">
+                    <h5 class="text-secondary mb-2">
+                        <i class="bi bi-people-fill text-primary me-1"></i> Becados
+                    </h5>
+                    <div id="counter-becados" class="display-5 fw-bold text-primary">0</div>
+                    <p class="text-muted mb-0">Total de becados</p>
+                </div>
             </div>
-        </div>
-        <div class="col-sm-12 col-md-3">
-            <div class="card p-1 mb-2 mx-0" style="text-align: center;">
-                <h3 style="font-size: 18px"><i class="bi bi-graph-up-arrow"></i> Becados</h3>
-                <div style="font-size: 30px; color: #667eea; font-weight: bold; margin: 0px 0;">45</div>
-                <p style="color: #666;">Nivel educativo</p>
+
+            <!-- Becados por nivel educativo -->
+            <div class="col-12 col-md-3">
+                <div class="card shadow-sm border-0 p-3">
+                    <h6 class="text-secondary mb-3">
+                        <i class="bi bi-graph-up-arrow text-success me-1"></i> Becados por nivel
+                    </h6>
+                    <ul class="list-group list-group-flush small">
+                        <li class="list-group-item d-flex justify-content-between px-0 py-1">
+                            Básico <span class="badge bg-primary rounded-pill">9</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0 py-1">
+                            Bachillerato <span class="badge bg-success rounded-pill">12</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0 py-1">
+                            Universidad <span class="badge bg-warning text-dark rounded-pill">7</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between px-0 py-1">
+                            Técnico <span class="badge bg-info text-dark rounded-pill">4</span>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <div class="col-sm-12 col-md-3">
-            <div class="card p-1 mb-2 mx-0" style="text-align: center;">
-                <h3 style="font-size: 18px"><i class="bi bi-mortarboard"></i> Graduados</h3>
-                <div style="font-size: 30px; color: #667eea; font-weight: bold; margin: 0px 0;">45</div>
-                <p style="color: #666;">Porcentaje</p>
+
+            <!-- Porcentaje de graduados -->
+            <div class="col-12 col-md-3">
+                <div class="card shadow-sm text-center border-0 p-3">
+                    <h5 class="text-secondary mb-2">
+                        <i class="bi bi-mortarboard text-warning me-1"></i> Graduados
+                    </h5>
+                    <div class="display-5 fw-bold text-warning">30%</div>
+                    <p class="text-muted mb-0 small">
+                        graduados de <span class="fw-semibold">100</span> becados
+                    </p>
+                </div>
             </div>
-        </div>
-        <div class="col-sm-12 col-md-3">
-            <div class="card p-1 mb-2 mx-0" style="text-align: center;">
-                <h3 style="font-size: 18px"><i class="bi bi-pie-chart-fill"></i> Promedio</h3>
-                <div style="font-size: 30px; color: #667eea; font-weight: bold; margin: 0px 0;">45</div>
-                <p style="color: #666;">General</p>
+
+            <!-- Promedio general -->
+            <div class="col-12 col-md-3">
+                <div class="card shadow-sm text-center border-0 p-3">
+                    <h5 class="text-secondary mb-2">
+                        <i class="bi bi-pie-chart-fill text-info me-1"></i> Promedio
+                    </h5>
+                    <div class="display-5 fw-bold text-info" id="promedio_gen">0.0</div>
+                    <p class="text-muted mb-0">Promedio general</p>
+                </div>
+            </div>
+
+            <!-- Inversión anual en becas -->
+            <div class="col-12 col-md-3">
+                <div class="card shadow-sm text-center border-0 p-3">
+                    <h5 class="text-secondary mb-2">
+                        <i class="bi bi-cash-stack text-danger me-1"></i> Inversión
+                    </h5>
+                    <div class="display-5 fw-bold text-danger">$120,000</div>
+                    <p class="text-muted mb-0">Inversión anual en becas</p>
+                </div>
             </div>
         </div>
     </div>
@@ -129,3 +171,7 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script src="{{ asset('app/helpers/dashboard.js') }}?v={{ rand() }}"></script>
+@endpush
