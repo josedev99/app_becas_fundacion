@@ -49,41 +49,52 @@
         background: #667eea;
     }
 
+    h5{
+        font-size: 16px;
+    }
+
+    .display-7{
+        font-size: 1.6rem;
+    }
+
+    .text-muted{
+        font-size: 0.85rem;
+    }
 </style>
 <h1>Bienvenido {{ Auth()->user()->nombre }}</h1>
 
 <div id="dashboard" class="tab-content">
-    <div class="container my-4">
+    <div class="p-3 my-2">
         <div class="row g-3">
             <!-- Número total de becados -->
             <div class="col-12 col-md-3">
-                <div class="card shadow-sm text-center border-0 p-3">
+                <div class="card shadow-sm text-center border-0 p-2 m-0">
                     <h5 class="text-secondary mb-2">
                         <i class="bi bi-people-fill text-primary me-1"></i> Becados
                     </h5>
-                    <div id="counter-becados" class="display-5 fw-bold text-primary">0</div>
+                    <div id="counter-becados" class="display-7 fw-bold text-primary">0</div>
                     <p class="text-muted mb-0">Total de becados</p>
                 </div>
             </div>
 
             <!-- Becados por nivel educativo -->
             <div class="col-12 col-md-3">
-                <div class="card shadow-sm border-0 p-3">
-                    <h6 class="text-secondary mb-3">
+                <div class="card shadow-sm border-0 p-2 m-0">
+                    <h6 class="text-secondary mb-2">
                         <i class="bi bi-graph-up-arrow text-success me-1"></i> Becados por nivel
                     </h6>
                     <ul class="list-group list-group-flush small">
-                        <li class="list-group-item d-flex justify-content-between px-0 py-1">
-                            Básico <span class="badge bg-primary rounded-pill">9</span>
+                        <li class="list-group-item d-flex justify-content-between px-1 py-1">
+                            Básico <span class="badge bg-primary" id="nivel-Basico">0</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between px-0 py-1">
-                            Bachillerato <span class="badge bg-success rounded-pill">12</span>
+                        <li class="list-group-item d-flex justify-content-between px-1 py-1">
+                            Bachillerato <span class="badge bg-success" id="nivel-Bachillerato">0</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between px-0 py-1">
-                            Universidad <span class="badge bg-warning text-dark rounded-pill">7</span>
+                        <li class="list-group-item d-flex justify-content-between px-1 py-1">
+                            Universidad <span class="badge bg-warning text-dark" id="nivel-Universidad">0</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between px-0 py-1">
-                            Técnico <span class="badge bg-info text-dark rounded-pill">4</span>
+                        <li class="list-group-item d-flex justify-content-between px-1 py-1">
+                            Técnico <span class="badge bg-info text-dark" id="nivel-Tecnico">0</span>
                         </li>
                     </ul>
                 </div>
@@ -91,35 +102,35 @@
 
             <!-- Porcentaje de graduados -->
             <div class="col-12 col-md-3">
-                <div class="card shadow-sm text-center border-0 p-3">
+                <div class="card shadow-sm text-center border-0 p-2 m-0">
                     <h5 class="text-secondary mb-2">
                         <i class="bi bi-mortarboard text-warning me-1"></i> Graduados
                     </h5>
-                    <div class="display-5 fw-bold text-warning">30%</div>
+                    <div class="display-7 fw-bold text-warning" id="porcentaje-graduados">0%</div>
                     <p class="text-muted mb-0 small">
-                        graduados de <span class="fw-semibold">100</span> becados
+                        de <strong class="fw-semibold" id="total-becados"></strong> becados
                     </p>
                 </div>
             </div>
 
             <!-- Promedio general -->
             <div class="col-12 col-md-3">
-                <div class="card shadow-sm text-center border-0 p-3">
+                <div class="card shadow-sm text-center border-0 p-2 m-0">
                     <h5 class="text-secondary mb-2">
                         <i class="bi bi-pie-chart-fill text-info me-1"></i> Promedio
                     </h5>
-                    <div class="display-5 fw-bold text-info" id="promedio_gen">0.0</div>
+                    <div class="display-7 fw-bold text-info" id="promedio_gen">0.0</div>
                     <p class="text-muted mb-0">Promedio general</p>
                 </div>
             </div>
 
             <!-- Inversión anual en becas -->
             <div class="col-12 col-md-3">
-                <div class="card shadow-sm text-center border-0 p-3">
+                <div class="card shadow-sm text-center border-0 p-2 m-0">
                     <h5 class="text-secondary mb-2">
                         <i class="bi bi-cash-stack text-danger me-1"></i> Inversión
                     </h5>
-                    <div class="display-5 fw-bold text-danger">$120,000</div>
+                    <div class="display-7 fw-bold text-danger">$0.00</div>
                     <p class="text-muted mb-0">Inversión anual en becas</p>
                 </div>
             </div>
@@ -132,7 +143,7 @@
                 <div class="card-header bg-transparent m-0 p-1">
                     <h6><i class="bi bi-calendar-week me-2"></i>Próximos Seguimientos</h6>
                 </div>
-                <div class="card-body m-0 p-1">
+                <div class="card-body m-0 p-2">
                     <div class="timeline pt-2">
                         <div class="timeline-item">
                             <div class="d-flex justify-content-between align-items-center">

@@ -22,7 +22,7 @@ class SeguimientoService{
                 'observaciones_tutor' => trim($datos['observaciones_tutor']),
                 'estado_beca' =>$datos['estado_beca'],
                 'proridad' => $datos['prioridad_segui'],
-                'fecha_proximo' => $datos['fecha_proximo'],
+                'fecha_proximo' => !empty($datos['fecha_proximo']) ? $datos['fecha_proximo'] : '',
                 'responsable_seguimiento' => strtoupper(trim($datos['responsable_seguimiento'])),
                 'estudiante_id' => $datos['becado_seguimiento'],
                 'user_id' => $user_id,

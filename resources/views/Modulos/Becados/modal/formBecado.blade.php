@@ -177,6 +177,7 @@
                                                     <option value="">Seleccionar</option>
                                                     <option value="Activo">Activo</option>
                                                     <option value="Graduado">Graduado</option>
+                                                    <option value="Suspendida">Suspendida</option>
                                                     <option value="Retirado">Retirado</option>
                                                 </select>
                                             </div>
