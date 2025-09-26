@@ -144,35 +144,10 @@
                     <h6><i class="bi bi-calendar-week me-2"></i>Próximos Seguimientos</h6>
                 </div>
                 <div class="card-body m-0 p-2">
-                    <div class="timeline pt-2">
-                        <div class="timeline-item">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="mb-1">Juan Pérez</h6>
-                                    <p class="mb-1 text-muted">Seguimiento académico</p>
-                                    <small class="text-primary"><i class="bi bi-clock"></i> Hoy 15:00</small>
-                                </div>
-                                <span class="priority-badge priority-media">Media</span>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="mb-1">María González</h6>
-                                    <p class="mb-1 text-muted">Reunión familiar</p>
-                                    <small class="text-success"><i class="bi bi-clock"></i> Mañana 10:30</small>
-                                </div>
-                                <span class="priority-badge priority-alta">Alta</span>
-                            </div>
-                        </div>
-                        <div class="timeline-item">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <h6 class="mb-1">Carlos Rodríguez</h6>
-                                    <p class="mb-1 text-muted">Verificación socioeconómica</p>
-                                    <small class="text-info"><i class="bi bi-clock"></i> 16 Sept 14:00</small>
-                                </div>
-                                <span class="priority-badge priority-baja">Baja</span>
+                    <div class="timeline pt-2" id="lista-seguimientos">
+                        <div class="text-center p-3">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Sin datos.</span>
                             </div>
                         </div>
                     </div>
