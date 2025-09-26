@@ -31,7 +31,7 @@ function setBecadosPorNivel(nivel, cantidad){
 
 function getGraduados(cantidadBecados, porcentaje=0){
     if(tag_porcentaje_graduados && tag_total_becados){
-        tag_porcentaje_graduados.innerText = `${porcentaje}%`;
+        tag_porcentaje_graduados.innerText = `${parseFloat(porcentaje).toFixed(2)}%`;
         tag_total_becados.innerText = cantidadBecados;
     }
 }

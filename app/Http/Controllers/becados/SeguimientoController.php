@@ -35,7 +35,7 @@ class SeguimientoController extends Controller
     }
 
     public function getDatoSeguimiento(){
-        $seguimientosArray = DB::select("SELECT e.nombre_completo, s.fecha_proximo, s.proridad, da.carrera_grado FROM `seguimientos` AS s INNER JOIN estudiantes AS e ON s.estudiante_id=e.id INNER JOIN datos_academicos AS da ON e.id=da.estudiante_id WHERE s.fecha_proximo >= NOW()");
+        $seguimientosArray = DB::select("SELECT e.nombre_completo, s.fecha_proximo, s.proridad, da.carrera_grado FROM `seguimientos` AS s INNER JOIN estudiantes AS e ON s.estudiante_id=e.id INNER JOIN datos_academicos AS da ON e.id=da.estudiante_id WHERE s.fecha_proximo >= NOW() ORDER BY s.fecha_proximo DESC LIMIT 50");
         foreach ($seguimientosArray as &$item) {
             $item->fecha_proximo = date('d/m/Y', strtotime($item->fecha_proximo));
         }
