@@ -21,3 +21,4 @@ Route::get('/',[HomeController::class,'index'])->middleware('auth')->name('app.h
 require __DIR__.'/routesDir/routeBecados.php';
 require __DIR__.'/routesDir/routesBecas.php';
 require __DIR__.'/routesDir/routesDashboard.php';
+require __DIR__.'/routesDir/routesValoresDinamicos.php';

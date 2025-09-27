@@ -1,5 +1,7 @@
 const btnNewBecado = document.querySelector('#btn-new-becado');
 const formEstudiante = document.querySelector('#form-becado');
+//button para agregar nueva instucion
+const btnAddInstitucion = document.getElementById('btn-add-institucion');
 
 document.addEventListener('DOMContentLoaded', (e)=> {
     dataTable('dt-becados', route('becado.listar'));
@@ -7,6 +9,8 @@ document.addEventListener('DOMContentLoaded', (e)=> {
     $("#nivel_educativo").selectize();
     $("#estado_academico").selectize();
     $("#situacion_familiar").selectize();
+    //new selectize
+    $("#institucion").selectize();
     if(btnNewBecado){
         btnNewBecado.addEventListener('click', (e)=>{
             e.preventDefault();
@@ -82,6 +86,15 @@ document.addEventListener('DOMContentLoaded', (e)=> {
                     });
                 }
             });
+        })
+    }
+    //Nueva institucion
+    if(btnAddInstitucion){
+        btnAddInstitucion.addEventListener('click', (e)=> {
+            e.stopPropagation();
+            document.getElementById('form-val-dinamico').setAttribute('data-modulo','becados');
+            document.getElementById('form-val-dinamico').setAttribute('data-identificador','institucion');
+            $("#modal-form-institucion").modal('show');
         })
     }
 })

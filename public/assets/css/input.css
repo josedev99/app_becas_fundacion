@@ -185,12 +185,20 @@ Selectize title
     text-align: center;
 }
 
+.selectize-dropdown-content{
+    background: #fff;
+}
+
+.selectize-dropdown-content .option{
+    border-radius: 4px;
+}
+
 .selectize-control.multi .selectize-input > .item {
     background-color: #e1f3ff;
     color: #0F4C75;
-    border-radius: 0.10rem;
+    border-radius: 5px;
     padding: 0.10rem 0.5rem;
     margin: 0.15rem;
     font-weight: 600;
-
+    font-size: 13px;
 }

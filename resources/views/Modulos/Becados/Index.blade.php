@@ -14,6 +14,7 @@
 @endsection
 @section('content')
     @include('Modulos.Becados.modal.formBecado')
+    @include('Modulos.Becados.modal.formInstitucion')
     <div class="card p-1 m-0">
         <div class="card-header p-1">
             <button id="btn-new-becado" class="btn btn-outline-success btn-sm">Nuevo becado <i class="bi bi-plus-circle"></i></button>
@@ -42,6 +43,7 @@
 
 @push('scripts')
     <script src="{{ asset('app/modules/becado/index.js') }}?v={{ rand() }}"></script>
+    <script src="{{ asset('app/helpers/val_dinamicos.js') }}?v={{ rand() }}"></script>
     <script>
         let telefono = new Cleave('#telefono', {
             delimiter: '-',

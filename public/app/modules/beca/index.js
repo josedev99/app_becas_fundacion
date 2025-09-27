@@ -71,7 +71,6 @@ document.addEventListener('DOMContentLoaded', ()=>{
                         icon: data.status
                     });
                 }
-                console.log(response);
             }).catch((err) => {
                 console.log(err);
                 Swal.close();
@@ -132,7 +131,7 @@ function editBeca(tag){
         $("#financiamiento")[0].selectize.setValue(data.result.financiamiento);
         $("#plazo_monto")[0].selectize.setValue(data.result.plazo_monto);
         $("#forma_entrega")[0].selectize.setValue(data.result.forma_entrega);
-        $("#compromiso")[0].selectize.setValue(data.result.compromisos);
+        $("#compromiso")[0].selectize.setValue(data.result.compromisos.split(','));
 
         document.getElementById('nombre_beca').value = data.result.nombre;
         document.getElementById('encargado_beca').value = data.result.responsable;
