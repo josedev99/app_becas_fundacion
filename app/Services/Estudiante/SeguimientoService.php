@@ -20,7 +20,7 @@ class SeguimientoService{
                 'nota_adicional' => trim($datos['notas_add']),
                 'participacion_actividades' => trim($datos['participacion']),
                 'observaciones_tutor' => trim($datos['observaciones_tutor']),
-                'estado_beca' =>$datos['estado_beca'],
+                'estado_beca' => $datos['estado_beca'],
                 'proridad' => $datos['prioridad_segui'],
                 'fecha_proximo' => !empty($datos['fecha_proximo']) ? $datos['fecha_proximo'] : '',
                 'responsable_seguimiento' => strtoupper(trim($datos['responsable_seguimiento'])),
@@ -28,6 +28,8 @@ class SeguimientoService{
                 'user_id' => $user_id,
             ]);
             if($saveSeguimiento){
+                //Update estado de becado
+                Becados::where('id', $datos['becado_seguimiento'])->update(["estado_academico" => $datos['estado_beca']]);
                 DB::commit();
                 return [
                     'status' => 'success',
