@@ -1,3 +1,17 @@
+<style>
+    .status-badge, .priority-badge {
+        border-radius: 30px;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+    }
+    .card {
+        transition: transform 0.2s ease-in-out;
+    }
+    .card:hover {
+        transform: translateY(-2px);
+    }
+</style>
+
 <div class="modal fade" id="modal-seg-detalle" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">

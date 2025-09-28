@@ -112,7 +112,13 @@ function getBecadosAll() {
 
 function showDetails(tag_element){
     let record_id = tag_element.dataset.record_id;
-    modalContentDetalle.innerHTML = ``;
+    modalContentDetalle.innerHTML = `
+        <div class="text-center py-3">
+            <div class="spinner-border text-primary mb-3" style="width: 3rem; height: 3rem;" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+        </div>
+    `;
     axios.post(route('seguimiento.detalle'), {record_id})
     .then((response) => {
         console.log(response);
@@ -120,48 +126,49 @@ function showDetails(tag_element){
         let seguimiento = data.seguimiento;
         document.getElementById('fecha_seg').textContent = seguimiento.fecha_reporte;
         modalContentDetalle.innerHTML = `
-            <div class="row mb-3">
+            <div class="row g-4">
+                <!-- Información Básica -->
                 <div class="col-md-6">
-                    <h6 class="text-muted mb-2">INFORMACIÓN BÁSICA</h6>
-                    <div class="card bg-light">
+                    <h6 class="text-secondary mb-3 d-flex align-items-center">
+                        <i class="bi bi-person-vcard me-2 text-primary"></i> Información Básica
+                    </h6>
+                    <div class="card border-0 shadow-sm rounded-3">
                         <div class="card-body">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Becado</label>
-                                <div>${data.nombre_completo} - ${data.carrera_grado}</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <label class="form-label fw-bold">Fecha</label>
-                                    <div>${data.created_at}</div>
+                            <p class="fw-bold text-dark mb-1">Becado</p>
+                            <p class="mb-3"><i class="bi bi-person-circle me-1"></i>${data.nombre_completo} - ${data.carrera_grado}</p>
+                            <div class="d-flex flex-wrap">
+                                <div class="me-4">
+                                    <p class="fw-bold text-dark mb-1">Fecha de Registro</p>
+                                    <span class="badge bg-light text-dark shadow-sm">
+                                        <i class="bi bi-calendar-event me-1"></i>${data.created_at}
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Estado y Seguimiento -->
                 <div class="col-md-6">
-                    <h6 class="text-muted mb-2">ESTADO Y SEGUIMIENTO</h6>
-                    <div class="card border-0 bg-light">
+                    <h6 class="text-secondary mb-3 d-flex align-items-center">
+                        <i class="bi bi-clipboard-check me-2 text-success"></i> Estado y Seguimiento
+                    </h6>
+                    <div class="card border-0 shadow-sm rounded-3">
                         <div class="card-body">
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Responsable</label>
-                                <div>${seguimiento.responsable_seguimiento}</div>
-                            </div>
+                            <p class="fw-bold mb-1">Responsable</p>
+                            <p class="mb-3"><i class="bi bi-person-badge me-1"></i>${seguimiento.responsable_seguimiento}</p>
                             <div class="row">
-                                <div class="col-6">
-                                    <label class="form-label fw-bold">Estado</label>
-                                    <div>
-                                        <span class="status-badge status-${seguimiento.estado_beca}">
-                                            ${seguimiento.estado_beca}
-                                        </span>
-                                    </div>
+                                <div class="col-6 mb-2">
+                                    <p class="fw-bold mb-1">Estado</p>
+                                    <span class="badge bg-${seguimiento.estado_beca === 'Activo' ? 'success' : 'danger'} px-3 py-2 shadow-sm">
+                                        <i class="bi bi-flag me-1"></i>${seguimiento.estado_beca}
+                                    </span>
                                 </div>
-                                <div class="col-6">
-                                    <label class="form-label fw-bold">Prioridad</label>
-                                    <div>
-                                        <span class="priority-badge priority-${seguimiento.proridad}">
-                                            ${seguimiento.proridad}
-                                        </span>
-                                    </div>
+                                <div class="col-6 mb-2">
+                                    <p class="fw-bold mb-1">Prioridad</p>
+                                    <span class="badge bg-${seguimiento.proridad === 'Alta' ? 'warning text-dark' : 'secondary'} px-3 py-2 shadow-sm">
+                                        <i class="bi bi-exclamation-triangle me-1"></i>${seguimiento.proridad}
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -169,40 +176,50 @@ function showDetails(tag_element){
                 </div>
             </div>
 
-            <div class="mb-4">
-                <h6 class="text-muted mb-2">PARTICIPACIÓN EN ACTIVIDADES</h6>
-                <div class="card border-0 bg-light">
+            <!-- Participación en Actividades -->
+            <div class="mt-4">
+                <h6 class="text-secondary mb-3 d-flex align-items-center">
+                    <i class="bi bi-people-fill me-2 text-info"></i> Participación en Actividades
+                </h6>
+                <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-body">
-                        <p class="mb-2">${seguimiento.participacion_actividades}</p>
+                        <p class="mb-0">${seguimiento.participacion_actividades || '<span class="text-muted">Sin información</span>'}</p>
                     </div>
                 </div>
             </div>
 
-            <div class="mb-4">
-                <h6 class="text-muted mb-2">OBSERVACIONES DEL TUTOR</h6>
-                <div class="card border-0 bg-light">
+            <!-- Observaciones -->
+            <div class="mt-4">
+                <h6 class="text-secondary mb-3 d-flex align-items-center">
+                    <i class="bi bi-chat-dots me-2 text-primary"></i> Observaciones del Tutor
+                </h6>
+                <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-body">
-                        <p class="mb-0">${seguimiento.observaciones_tutor}</p>
+                        <p class="mb-0">${seguimiento.observaciones_tutor || '<span class="text-muted">Sin observaciones</span>'}</p>
                     </div>
                 </div>
             </div>
 
-            <div class="mb-4">
-                <h6 class="text-muted mb-2">NOTAS ADICIONALES</h6>
-                <div class="card border-0 bg-light">
+            <!-- Notas Adicionales -->
+            <div class="mt-4">
+                <h6 class="text-secondary mb-3 d-flex align-items-center">
+                    <i class="bi bi-journal-plus me-2 text-success"></i> Notas Adicionales
+                </h6>
+                <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-body">
-                        <p class="mb-0">${seguimiento.nota_adicional}</p>
+                        <p class="mb-0">${seguimiento.nota_adicional || '<span class="text-muted">No hay notas adicionales</span>'}</p>
                     </div>
                 </div>
             </div>
-            
-            <div class="alert alert-info d-flex align-items-center" role="alert">
-                <i class="bi bi-calendar-check me-2"></i>
+
+            <!-- Próximo seguimiento -->
+            <div class="alert alert-info mt-4 d-flex align-items-center shadow-sm rounded-3" role="alert">
+                <i class="bi bi-calendar-check me-2 fs-5"></i>
                 <div>
-                    <strong>Próximo seguimiento:</strong> ${seguimiento.fecha_proximo}
+                    <strong>Próximo seguimiento:</strong> ${seguimiento.fecha_proximo || 'No programado'}
                 </div>
             </div>
-        `;
+            `;
         $("#modal-seg-detalle").modal('show');
     }).catch((err) => {
         console.log(err);
