@@ -24,7 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     setValSelectize(data.result.nombre,data.result.identicador,true);
                     document.getElementById('form-val-dinamico').removeAttribute('data-modulo');
                     document.getElementById('form-val-dinamico').removeAttribute('data-identificador');
-                    $("#modal-form-institucion").modal('hide');
+                    $("#modal-form-valores").modal('hide');
+                    formValDinamico.reset();
                 }else{
                     Swal.fire({
                         title: "Error",

@@ -140,15 +140,20 @@
                                                 <select class="form-select" name="institucion" id="institucion" required>
                                                     <option value="">Seleccionar</option>
                                                 </select>
-                                                <span class="select-icon" title="institucion" title="Agregar nueva institución" id="btn-add-institucion" style="cursor: pointer;">
-                                                    <i class="bi bi-building-fill-add"></i>
+                                                <span class="select-icon" title="Agregar nueva institución" id="btn-add-institucion" style="cursor: pointer;">
+                                                    <i class="bi bi-plus-circle"></i>
                                                 </span>
                                             </div>
                                         </div>
                                         <div class="col-sm-12 col-md-12 col-lg-6">
-                                            <div class="content-input mb-2">
-                                                <input type="text" name="carrera" id="carrera" placeholder=" " class="input">
-                                                <label class="input-label">Carrera/grado</label>
+                                            <div class="input-group mb-2">
+                                                <label for="carrera" class="select-title">Carrera/grado</label>
+                                                <select class="form-select" name="carrera" id="carrera" required>
+                                                    <option value="">Seleccionar</option>
+                                                </select>
+                                                <span class="select-icon" title="Agregar carrera" id="btn-add-carrera" style="cursor: pointer;">
+                                                    <i class="bi bi-plus-circle"></i>
+                                                </span>
                                             </div>
                                         </div>
                                         <div class="col-sm-12 col-md-6 col-lg-3">

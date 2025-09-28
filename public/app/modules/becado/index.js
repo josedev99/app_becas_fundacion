@@ -2,6 +2,7 @@ const btnNewBecado = document.querySelector('#btn-new-becado');
 const formEstudiante = document.querySelector('#form-becado');
 //button para agregar nueva instucion
 const btnAddInstitucion = document.getElementById('btn-add-institucion');
+const btnAddCarrera = document.getElementById('btn-add-carrera');
 
 document.addEventListener('DOMContentLoaded', (e)=> {
     dataTable('dt-becados', route('becado.listar'));
@@ -11,6 +12,7 @@ document.addEventListener('DOMContentLoaded', (e)=> {
     $("#situacion_familiar").selectize();
     //new selectize
     $("#institucion").selectize();
+    $("#carrera").selectize();
     if(btnNewBecado){
         btnNewBecado.addEventListener('click', (e)=>{
             e.preventDefault();
@@ -92,9 +94,22 @@ document.addEventListener('DOMContentLoaded', (e)=> {
     if(btnAddInstitucion){
         btnAddInstitucion.addEventListener('click', (e)=> {
             e.stopPropagation();
+            document.getElementById('form-val-dinamico').reset();
+            document.getElementById('modal-title-valores').textContent = `Registrar nueva Institución`;
             document.getElementById('form-val-dinamico').setAttribute('data-modulo','becados');
             document.getElementById('form-val-dinamico').setAttribute('data-identificador','institucion');
-            $("#modal-form-institucion").modal('show');
+            $("#modal-form-valores").modal('show');
+        })
+    }
+
+    if(btnAddCarrera){
+        btnAddCarrera.addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('form-val-dinamico').reset();
+            document.getElementById('modal-title-valores').textContent = `Registrar nueva carrera`;
+            document.getElementById('form-val-dinamico').setAttribute('data-modulo','becados');
+            document.getElementById('form-val-dinamico').setAttribute('data-identificador','carrera');
+            $("#modal-form-valores").modal('show');
         })
     }
 })
@@ -105,6 +120,8 @@ function resetForm(){
     $("#beca_id")[0].selectize.clear();
     $("#nivel_educativo")[0].selectize.clear();
     $("#situacion_familiar")[0].selectize.clear();
+    $("#institucion")[0].selectize.clear();
+    $("#carrera")[0].selectize.clear();
 }
 
 function getBecas(){
@@ -148,6 +165,7 @@ function editEstudiante(tag){
     $("#modal-form-becado").modal('show');
     axios.post(route('becado.edit'), {record_id: record_id})
     .then((response)=>{
+        resetForm();
         formEstudiante.setAttribute('data-record_id', record_id);
         let data = response.data;
         //Elementos Estudiante
@@ -161,8 +179,8 @@ function editEstudiante(tag){
         $("#beca_id")[0].selectize.setValue(data.beca_id);
         //Datos academicos
         $("#nivel_educativo")[0].selectize.setValue(data.nivel_educativo);
-        document.getElementById('institucion').value      = data.institucion;
-        document.getElementById('carrera').value          = data.carrera_grado;
+        $('#institucion')[0].selectize.setValue(data.institucion);
+        $('#carrera')[0].selectize.setValue(data.carrera_grado);
         document.getElementById('promedio').value         = data.promedio;
         $("#estado_academico")[0].selectize.setValue(data.estado_academico);
         document.getElementById('fInicio_beca').value     = data.fInicio;

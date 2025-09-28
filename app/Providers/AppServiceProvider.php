@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //Temporal
         if (app()->environment(['production','local'])) {
-            URL::forceScheme('http');
+            URL::forceScheme('https');
         }
     }
 }
