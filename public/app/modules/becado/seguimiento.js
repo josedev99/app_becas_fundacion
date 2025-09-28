@@ -110,7 +110,7 @@ function getBecadosAll() {
         });
 }
 
-function showDetails(tag_element){
+function showDetails(tag_element) {
     let record_id = tag_element.dataset.record_id;
     modalContentDetalle.innerHTML = `
         <div class="text-center py-3">
@@ -119,13 +119,13 @@ function showDetails(tag_element){
             </div>
         </div>
     `;
-    axios.post(route('seguimiento.detalle'), {record_id})
-    .then((response) => {
-        console.log(response);
-        let data = response.data;
-        let seguimiento = data.seguimiento;
-        document.getElementById('fecha_seg').textContent = seguimiento.fecha_reporte;
-        modalContentDetalle.innerHTML = `
+    axios.post(route('seguimiento.detalle'), { record_id })
+        .then((response) => {
+            console.log(response);
+            let data = response.data;
+            let seguimiento = data.seguimiento;
+            document.getElementById('fecha_seg').textContent = seguimiento.fecha_reporte;
+            modalContentDetalle.innerHTML = `
             <div class="row g-4">
                 <!-- Información Básica -->
                 <div class="col-md-6">
@@ -220,10 +220,10 @@ function showDetails(tag_element){
                 </div>
             </div>
             `;
-        $("#modal-seg-detalle").modal('show');
-    }).catch((err) => {
-        console.log(err);
-    });
+            $("#modal-seg-detalle").modal('show');
+        }).catch((err) => {
+            console.log(err);
+        });
 }
 // Exportar datos
 function exportarDatos() {
@@ -262,3 +262,67 @@ document.addEventListener('keydown', function (e) {
         }
     }
 });
+
+function removeSeguimiento(tag_element) {
+    let record_id = tag_element.dataset.record_id;
+    Swal.fire({
+        title: '¿Eliminar seguimiento?',
+        text: 'Esta acción es irreversible.',
+        icon: 'warning',
+        buttonsStyling: false,
+        showCancelButton: true,
+        confirmButtonText: '<i class="bi bi-trash3 me-1"></i> Sí, eliminar',
+        cancelButtonText: '<i class="bi bi-x-circle me-1"></i> Cancelar',
+        customClass: {
+            popup: 'border-0 shadow-lg rounded-4 p-3',      // Modal limpio Bootstrap
+            title: 'fw-bold text-danger',                   // Título en rojo
+            htmlContainer: 'text-muted',                    // Texto secundario
+            actions: 'd-flex justify-content-center gap-2',  // Botones centrados
+            confirmButton: 'btn btn-danger px-4',           // 🔴 Botón rojo Bootstrap
+            cancelButton: 'btn btn-secondary px-4'          // ⚪ Botón gris Bootstrap
+        },
+        reverseButtons: true // Pone cancelar a la izquierda
+    }).then((result) => {
+        if (result.isConfirmed) {
+            deleteSeguimiento(record_id);
+        }
+    });
+}
+
+function deleteSeguimiento(record_id){
+    axios.post(route('seguimiento.destroy'),{record_id})
+    .then((response) => {
+        console.log(response);
+        let {status, message} = response.data;
+        if(status === "success"){
+            Swal.fire({
+                title: 'Eliminado',
+                text: message,
+                icon: 'success',
+                buttonsStyling: false,
+                customClass: {
+                    popup: 'border-0 shadow-lg rounded-4 p-3',
+                    title: 'fw-bold text-success',
+                    confirmButton: 'btn btn-primary px-4'
+                },
+                confirmButtonText: '<i class="bi bi-check-circle me-1"></i> Entendido'
+            });
+            $("#dt-seguimiento").DataTable().ajax.reload();
+        }else{
+            Swal.fire({
+                title: 'Error',
+                text: message,
+                icon: 'error',
+                buttonsStyling: false,
+                customClass: {
+                    popup: 'border-0 shadow-lg rounded-4 p-3',
+                    title: 'fw-bold text-success',
+                    confirmButton: 'btn btn-primary px-4'
+                },
+                confirmButtonText: '<i class="bi bi-check-circle me-1"></i> Aceptar'
+            });
+        }
+    }).catch((err)=>{
+        console.log(err);
+    })
+}

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\becados;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SeguimientoRequest;
+use App\Models\becados\Seguimiento;
 use App\Services\Estudiante\SeguimientoService;
 use Exception;
 use Illuminate\Http\Request;
@@ -41,5 +42,26 @@ class SeguimientoController extends Controller
         }
         unset($item);
         return response()->json($seguimientosArray);
+    }
+
+    //Delete seguimiento
+    public function destroySeguimiento(Request $request){
+        try{
+            $record_id = Crypt::decrypt($request->record_id);
+        }catch(Exception $err){
+            $record_id = 0;
+        }
+        $deleteSeguimiento = Seguimiento::where('id', $record_id)->delete();
+
+        if($deleteSeguimiento){
+            return response()->json([
+                'status' => 'success',
+                'message' => 'El seguimiento se ha removido con éxito.'
+            ]);
+        }
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Ha ocurrido un error al eliminar el seguimiento.'
+        ]);
     }
 }
