@@ -153,7 +153,7 @@ class EstudianteService{
             $sub_array[] = ucfirst(strtolower($row->nombre)) . ' - ' . ucfirst($row->tipo_beca);
             $sub_array[] = '
             <button onclick="editEstudiante(this)" data-record_id="'. encrypt($row->id) .'" title="Editar usuario" class="btn btn-outline-info btn-sm" style="border:none;font-size:18px"><i class="bi bi-person-gear"></i></button>
-            <button onclick="removeEstudiante(this)" data-record_id="'. encrypt($row->id) .'" data-nombre="'.ucwords(strtolower($row->nombre_completo)).'" title="Remover usuario" class="btn btn-outline-danger btn-sm" style="border:none;font-size:18px"><i class="bi bi-person-check"></i></button>
+            <button onclick="removeEstudiante(this)" data-record_id="'. encrypt($row->id) .'" data-nombre="'.ucwords(strtolower($row->nombre_completo)).'" title="Remover usuario" class="btn btn-outline-danger btn-sm" style="border:none;font-size:18px"><i class="bi bi-person-x"></i></button>
             ';
 
             $data[] = $sub_array;
