@@ -11,6 +11,7 @@ Route::prefix('/estudiante')->middleware('auth')->group(function(){
     Route::post('/editar',[BecadosController::class, 'getEstudianteById'])->name('becado.edit');
     
     Route::post('/obtener-todos',[BecadosController::class, 'getBecadosAll'])->name('becado.getAll');
+    Route::post('/destroy-becado',[BecadosController::class, 'destroyBecado'])->name('destroy.becado');
 });
 
 Route::prefix('/seguimiento')->middleware('auth')->group(function(){

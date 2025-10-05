@@ -196,3 +196,53 @@ function editEstudiante(tag){
         console.log(err);
     })
 }
+
+function removeEstudiante(tag_button){
+    let {record_id, nombre} = tag_button.dataset;
+    Swal.fire({
+        title: "¿Estás seguro?",
+        html: `Se eliminará al becado <strong>${nombre}</strong> de forma permanente.`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#dc3545", // rojo tipo Bootstrap
+        cancelButtonColor: "#6c757d",  // gris neutro
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar",
+        reverseButtons: true,
+        focusCancel: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            axios.post(route('destroy.becado'), {record_id})
+            .then((response)=>{
+                let data = response.data;
+                if(data.status === "success"){
+                    Swal.fire({
+                        title: "Eliminado",
+                        text: `El becado ${nombre} fue eliminado correctamente.`,
+                        icon: "success",
+                        timer: 2500,
+                        showConfirmButton: true
+                    });
+                }else{
+                    Swal.fire({
+                        title: "Error",
+                        text: data.message,
+                        icon: "error",
+                        timer: 3500,
+                        showConfirmButton: true
+                    });
+                }
+                $("#dt-becados").DataTable().ajax.reload();
+            }).catch((err)=>{
+                console.log(err);
+                Swal.fire({
+                    title: "Error",
+                    text: `Ha ocurrido un error al procesar la solicitud.`,
+                    icon: "error",
+                    timer: 2500,
+                    showConfirmButton: true
+                });
+            })
+        }
+    });
+}

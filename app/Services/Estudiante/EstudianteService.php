@@ -6,6 +6,7 @@ use App\DTO\EstudianteDTO;
 use App\DTO\SocioEconomicoDTO;
 use App\Models\becados\Becados;
 use App\Models\becados\DatosAcademicos;
+use App\Models\becados\Seguimiento;
 use App\Models\DatosSocioeconomicos;
 use Carbon\Carbon;
 use Exception;
@@ -152,7 +153,7 @@ class EstudianteService{
             $sub_array[] = ucfirst(strtolower($row->nombre)) . ' - ' . ucfirst($row->tipo_beca);
             $sub_array[] = '
             <button onclick="editEstudiante(this)" data-record_id="'. encrypt($row->id) .'" title="Editar usuario" class="btn btn-outline-info btn-sm" style="border:none;font-size:18px"><i class="bi bi-person-gear"></i></button>
-            <button onclick="destroyUser(this)" data-record_id="'. encrypt($row->id) .'" title="Remover usuario" class="btn btn-outline-danger btn-sm" style="border:none;font-size:18px"><i class="bi bi-person-check"></i></button>
+            <button onclick="removeEstudiante(this)" data-record_id="'. encrypt($row->id) .'" data-nombre="'.ucwords(strtolower($row->nombre_completo)).'" title="Remover usuario" class="btn btn-outline-danger btn-sm" style="border:none;font-size:18px"><i class="bi bi-person-check"></i></button>
             ';
 
             $data[] = $sub_array;
@@ -184,5 +185,43 @@ class EstudianteService{
 
     public function getBecadosAll(){
         return Becados::select('id','nombre_completo','documento')->orderBy('id','DESC')->get();
+    }
+
+    public function destroy(int $id){
+        DB::beginTransaction();
+        try{
+            $becado = Becados::where('id', $id)->first();
+            if($becado){
+                $seguimientoCount = Seguimiento::where('estudiante_id', $becado['id'])->count();
+                if((int) $seguimientoCount > 0){
+                    return [
+                        "status" => "error",
+                        "message" => "El becado tiene seguimientos asociados."
+                    ];
+                }
+
+                $academicos = DatosAcademicos::where('estudiante_id', $becado['id'])->delete();
+                $socioeconomico = DatosSocioeconomicos::where('estudiante_id', $becado['id'])->delete();
+
+                if($academicos && $socioeconomico){
+                    $becado->delete();
+                    DB::commit();
+                    return [
+                        "status" => "success",
+                        "message" => "El becado se ha eliminado con éxito."
+                    ];
+                }
+                return [
+                    "status" => "error",
+                    "message" => "Error al eliminar datos asociados del becado."
+                ];
+            }
+        }catch(Exception $err){
+            DB::rollBack();
+            return [
+                "status" => "error",
+                "message" => "Ha ocurrido un error al procesar la solicitud."
+            ];
+        }
     }
 }

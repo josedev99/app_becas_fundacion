@@ -37,4 +37,14 @@ class BecadosController extends Controller
     public function getBecadosAll(EstudianteService $service){
         return response()->json($service->getBecadosAll());
     }
+
+    public function destroyBecado(Request $request, EstudianteService $service){
+        try{
+            $id = Crypt::decrypt($request->get('record_id'));
+        }catch(Exception $err){
+            $id = 0;
+        }
+
+        return response()->json($service->destroy($id));
+    }
 }
