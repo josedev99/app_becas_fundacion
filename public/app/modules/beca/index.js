@@ -148,3 +148,70 @@ function destroyBeca(){
     let record_id = tag.dataset.record_id;
     console.log(record_id);
 }
+
+function destroyBeca(tag){
+    let {record_id, nombre} = tag.dataset;
+
+    Swal.fire({
+        title: "¿Estás seguro?",
+        html: `Se eliminará la beca <strong>${nombre}</strong> de forma permanente.`,
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#dc3545", // rojo tipo Bootstrap
+        cancelButtonColor: "#6c757d",  // gris neutro
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar",
+        reverseButtons: true,
+        focusCancel: true
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: 'Solicitud en proceso...',
+                html: `
+                    <div class="d-flex flex-column align-items-center">
+                        <div class="spinner-border text-success mb-3" role="status" style="width: 3rem; height: 3rem;">
+                            <span class="visually-hidden">Cargando...</span>
+                        </div>
+                        <span>Por favor espere</span>
+                    </div>
+                `,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                showConfirmButton: false,
+            });
+            axios.post(route('beca.destroy'), {record_id})
+            .then((response)=>{
+                Swal.close();
+                let data = response.data;
+                if(data.status === "success"){
+                    Swal.fire({
+                        title: "Eliminado",
+                        text: `La beca: ${nombre} fue eliminado correctamente.`,
+                        icon: "success",
+                        timer: 2500,
+                        showConfirmButton: true
+                    });
+                }else{
+                    Swal.fire({
+                        title: "Error",
+                        text: data.message,
+                        icon: "error",
+                        timer: 3500,
+                        showConfirmButton: true
+                    });
+                }
+                $("#dt-becas").DataTable().ajax.reload();
+            }).catch((err)=>{
+                Swal.close();
+                console.log(err);
+                Swal.fire({
+                    title: "Error",
+                    text: `Ha ocurrido un error al procesar la solicitud.`,
+                    icon: "error",
+                    timer: 2500,
+                    showConfirmButton: true
+                });
+            })
+        }
+    });
+}

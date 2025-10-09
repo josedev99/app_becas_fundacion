@@ -9,4 +9,5 @@ Route::prefix('/becas')->middleware('auth')->group(function(){
     Route::post('/save', [BecasController::class, 'save'])->name('becas.save');
     Route::post('/listar', [BecasController::class, 'listarBecas'])->name('becas.listar');
     Route::post('/editar', [BecasController::class, 'getBecaById'])->name('beca.edit');
+    Route::post('delete',[BecasController::class, 'destroyBeca'])->name('beca.destroy');
 });

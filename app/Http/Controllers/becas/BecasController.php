@@ -4,6 +4,7 @@ namespace App\Http\Controllers\becas;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BecaRequest;
+use App\Models\becados\Becados;
 use App\Models\becas\Beca;
 use Exception;
 use Illuminate\Http\Request;
@@ -87,7 +88,7 @@ class BecasController extends Controller
             $sub_array[] = ucwords(strtolower($row->responsable));
             $sub_array[] = '
             <button onclick="editBeca(this)" data-record_id="'. encrypt($row->id) .'" title="Editar beca" class="btn btn-outline-info btn-sm" style="border:none;font-size:18px"><i class="bi bi-pencil-square"></i></button>
-            <button onclick="destroyBeca(this)" data-record_id="'. encrypt($row->id) .'" title="Remover beca" class="btn btn-outline-danger btn-sm" style="border:none;font-size:18px"><i class="bi bi-x-circle"></i></button>
+            <button onclick="destroyBeca(this)" data-record_id="'. encrypt($row->id) .'" data-nombre="'.$row->nombre.'" title="Remover beca" class="btn btn-outline-danger btn-sm" style="border:none;font-size:18px"><i class="bi bi-x-circle"></i></button>
             ';
 
             $data[] = $sub_array;
@@ -101,5 +102,35 @@ class BecasController extends Controller
             "aaData" => $data
         );
         return response()->json($results);
+    }
+
+    //Delete seguimiento
+    public function destroyBeca(Request $request){
+        try{
+            $record_id = Crypt::decrypt($request->record_id);
+        }catch(Exception $err){
+            $record_id = 0;
+        }
+        
+        $countBecadosInBeca = Becados::where('beca_id', $record_id)->count();
+        if((int)$countBecadosInBeca > 0){
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No es posible eliminar la beca porque tiene estudiantes asociados.'
+            ]);
+        }
+        
+        $deleteBeca = Beca::where('id', $record_id)->delete();
+        
+        if($deleteBeca){
+            return response()->json([
+                'status' => 'success',
+                'message' => 'La beca se ha removido con éxito.'
+            ]);
+        }
+        return response()->json([
+            'status' => 'error',
+            'message' => 'Ha ocurrido un error al eliminar la beca.'
+        ]);
     }
 }
