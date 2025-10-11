@@ -39,6 +39,9 @@
 
 <script src="{{ asset('assets/vendor/font-awesome/all.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/flatpickr/flatpickr.js') }}"></script>
+{{-- daterangepicker --}}
+<script src="{{ asset('assets/vendor/daterangepicker/moment.min.js') }}"></script>
+<script src="{{ asset('assets/vendor/daterangepicker/daterangepicker.min.js') }}"></script>
 {{-- <script src="{{ asset('assets/vendor/interact/interact.min.js') }}"></script> --}}
 
 <script>

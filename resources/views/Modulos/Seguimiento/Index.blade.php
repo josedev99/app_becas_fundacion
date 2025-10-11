@@ -20,6 +20,36 @@
             <button id="btn-new-seguimiento" class="btn btn-outline-success btn-sm">Nuevo seguimiento <i class="bi bi-plus-circle"></i></button>
         </div>
         <div class="card-body p-1">
+            <div class="card-header p-1">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12 col-lg-6">
+                        <div class="content-input mb-2">
+                            <label for="filtro_estudiante" class="select-title">Becados:</label>
+                            <select class="form-select form-select-sm" name="filtro_estudiante" id="filtro_estudiante">
+                                <option value="">Todos los becados</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-3">
+                        <div class="content-input mb-2">
+                            <label for="filtro_estado" class="select-title">Estados:</label>
+                            <select class="form-select form-select-sm" name="filtro_estado" id="filtro_estado">
+                                <option value="">Todos los estados</option>
+                                <option value="Activo">Activo</option>
+                                <option value="Graduado">Graduado</option>
+                                <option value="Suspendida">Suspendida</option>
+                                <option value="Retirado">Retirado</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6 col-lg-3">
+                        <div class="content-input mb-2">
+                            <input type="text" onchange="filtrarFechas()" name="filtro_fechas" id="filtro_fechas" title="filtrar fechas" placeholder=" " class="input">
+                            <label class="input-label">Filtrar fechas</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <table id="dt-seguimiento" width="100%"
                 style="text-align: center;text-align:center ; padding:20px;"
                 data-order='[[ 0, "desc" ]]' class="table-hover table-striped">

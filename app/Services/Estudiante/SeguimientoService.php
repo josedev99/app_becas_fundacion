@@ -49,10 +49,19 @@ class SeguimientoService{
         }
     }
 
-    public function getDataDtSeguimiento(){
-        $datos = DB::table('estudiantes AS e')
-            ->join('seguimientos AS s','s.estudiante_id','=','e.id')
-            ->select('s.id','e.nombre_completo','e.documento', 's.fecha_reporte', 's.estado_beca','s.responsable_seguimiento','s.proridad', 's.created_at')
+    public function getDataDtSeguimiento(int $becado_id, $estado, $fInicio, $fFinal){
+        $query = DB::table('estudiantes AS e')
+            ->join('seguimientos AS s','s.estudiante_id','=','e.id');
+        if($becado_id != 0){
+            $query->where('s.estudiante_id', $becado_id);
+        }
+        if($estado != ""){
+            $query->where('s.estado_beca', $estado);
+        }
+        if($fInicio != "" && $fFinal != ""){
+            $query->whereBetween(DB::raw('DATE(s.fecha_reporte)'), [$fInicio, $fFinal]);
+        }
+        $datos = $query->select('s.id','e.nombre_completo','e.documento', 's.fecha_reporte', 's.estado_beca','s.responsable_seguimiento','s.proridad', 's.created_at')
             ->orderBy('e.id','ASC')
             ->get();
 

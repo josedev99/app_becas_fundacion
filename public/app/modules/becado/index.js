@@ -162,7 +162,6 @@ function getBecas(){
 function editEstudiante(tag){
     getBecas();
     let record_id = tag.dataset.record_id;
-    $("#modal-form-becado").modal('show');
     axios.post(route('becado.edit'), {record_id: record_id})
     .then((response)=>{
         resetForm();
@@ -192,6 +191,7 @@ function editEstudiante(tag){
         document.getElementById('necesidades_esp').value     = data.necesidades;
         document.getElementById('comunidad_residencia').value= data.comunidad;
         console.log(response);
+        $("#modal-form-becado").modal('show');
     }).catch((err)=>{
         console.log(err);
     })

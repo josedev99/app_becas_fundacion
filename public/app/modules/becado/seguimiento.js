@@ -5,15 +5,72 @@ const formSeguimiento = document.querySelector('#form-seguimiento');
 const modalContentDetalle = document.getElementById('modalContentDetalle');
 
 document.addEventListener('DOMContentLoaded', (e) => {
-    dataTable('dt-seguimiento', route('seguimiento.listar'));
+    dataTable('dt-seguimiento', route('seguimiento.listar'), {becado_id: 0, estado: ''});
     $("#becado_seguimiento").selectize();
+    $("#filtro_estudiante").selectize();
+    $("#filtro_estado").selectize();
     $("#estado_beca").selectize();
     $("#prioridad_segui").selectize();
+    getBecadosAll('filtro_estudiante',false);//Obtener estudiantes
+    
+    $("#filtro_estudiante")[0].selectize.on('change', (value) => {
+        let estado = $("#filtro_estado")[0].selectize.getValue();
+        let filtro_fechas = document.getElementById('filtro_fechas').value;
+        let becado_id = 0;
+        if(value !== ""){
+            becado_id = value;
+        }
+        dataTable('dt-seguimiento', route('seguimiento.listar'), {becado_id: becado_id, estado: estado, filtro_fechas: filtro_fechas});
+    });
+    $("#filtro_estado")[0].selectize.on('change', (value) => {
+        let filtro_fechas = document.getElementById('filtro_fechas').value;
+        let becado_value = $("#filtro_estudiante")[0].selectize.getValue();
+        let becado_id = 0;
+        if(becado_value !== ""){
+            becado_id = becado_value;
+        }
+        dataTable('dt-seguimiento', route('seguimiento.listar'), {becado_id: becado_id, estado: value, filtro_fechas: filtro_fechas});
+    });
+    //filtros fechas
+    $("#filtro_fechas").daterangepicker({
+        locale: {
+            format: 'DD-MM-YYYY',
+            "separator": " hasta ",
+            "applyLabel": "Aplicar",
+            "cancelLabel": "Cancelar",
+            "fromLabel": "Desde",
+            "toLabel": "Hasta",
+            "customRangeLabel": "Personalizado",
+            "daysOfWeek": [
+                "Do",
+                "Lu",
+                "Ma",
+                "Mi",
+                "Ju",
+                "Vi",
+                "Sa"
+            ],
+            "monthNames": [
+                "Enero",
+                "Febrero",
+                "Marzo",
+                "Abril",
+                "Mayo",
+                "Junio",
+                "Julio",
+                "Agosto",
+                "Septiembre",
+                "Octubre",
+                "Noviembre",
+                "Diciembre"
+            ],
+        }
+    });
 
     if (btnNewSeguimiento) {
         btnNewSeguimiento.addEventListener('click', (e) => {
             e.preventDefault();
-            getBecadosAll();
+            getBecadosAll('becado_seguimiento');
             resetForm();
             //Abrir modal
             $("#modal-form-seguimiento").modal('show');
@@ -84,6 +141,17 @@ document.addEventListener('DOMContentLoaded', (e) => {
     }
 });
 
+function filtrarFechas(){
+    let becado_id = $("#filtro_estudiante")[0].selectize.getValue();
+    let estado = $("#filtro_estado")[0].selectize.getValue();
+    let filtro_fechas = document.getElementById('filtro_fechas').value;
+
+    if(becado_id === ""){
+        becado_id = 0;
+    }
+    dataTable('dt-seguimiento', route('seguimiento.listar'), {becado_id: becado_id, estado: estado, filtro_fechas: filtro_fechas});
+}
+
 function resetForm() {
     formSeguimiento.reset();
     $("#becado_seguimiento")[0].selectize.clear();
@@ -91,17 +159,17 @@ function resetForm() {
     $("#prioridad_segui")[0].selectize.clear();
 }
 
-function getBecadosAll() {
+function getBecadosAll(id, incluirDoc = true) {
     axios.post(route('becado.getAll'))
         .then((response) => {
             let data = response.data;
-            let selectizeEstudiante = $("#becado_seguimiento")[0].selectize;
+            let selectizeEstudiante = $(`#${id}`)[0].selectize;
             selectizeEstudiante.clear();
             selectizeEstudiante.clearOptions();
             data.forEach(becado => {
                 selectizeEstudiante.addOption({
                     value: becado.id,
-                    text: `[${becado.documento}] - ${becado.nombre_completo}`
+                    text: incluirDoc ? `[${becado.documento}] - ${becado.nombre_completo}` : `${becado.nombre_completo}`
                 });
             });
             console.log(response)

@@ -22,8 +22,20 @@ class SeguimientoController extends Controller
         return response()->json($service->save($datosValidados));
     }
 
-    public function listarSeguimientos(SeguimientoService $service){
-        return response()->json($service->getDataDtSeguimiento());
+    public function listarSeguimientos(Request $request,SeguimientoService $service){
+        $becado_id = $request->becado_id;
+        $estado = $request->estado;
+        if($request->filtro_fechas != ""){
+            [$fechaInicio, $fechaFin] = explode(' hasta ', $request->filtro_fechas);
+    
+            $fInicio = date('Y-m-d', strtotime(trim($fechaInicio)));
+            $fFin = date('Y-m-d', strtotime(trim($fechaFin)));
+        }else{
+            $fInicio = '';
+            $fFin = '';
+        }
+
+        return response()->json($service->getDataDtSeguimiento($becado_id, $estado, $fInicio, $fFin));
     }
 
     public function showDetail(Request $request, SeguimientoService $service){
