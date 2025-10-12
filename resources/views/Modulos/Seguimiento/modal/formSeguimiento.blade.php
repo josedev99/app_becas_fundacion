@@ -48,7 +48,7 @@
 </style>
 
 <div class="modal fade" id="modal-form-seguimiento" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-dark text-white px-2 py-1">
                 <h1 class="modal-title fs-6" id="display_title_becado">REGISTRAR NUEVO SEGUIMIENTO</h1>
@@ -73,7 +73,7 @@
                                 <div class="col-sm-12 col-md-12 col-lg-4">
                                     <div class="content-input mb-2">
                                         <input type="date" name="fecha_seguimiento" id="fecha_seguimiento" placeholder=" "
-                                            class="input">
+                                            class="input" value="{{ date('Y-m-d') }}">
                                         <label class="input-label">Fecha seguimiento*</label>
                                     </div>
                                 </div>

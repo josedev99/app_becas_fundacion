@@ -5,6 +5,7 @@ namespace App\Http\Controllers\becas;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BecaRequest;
 use App\Models\becados\Becados;
+use App\Models\becados\DatosAcademicos;
 use App\Models\becas\Beca;
 use Exception;
 use Illuminate\Http\Request;
@@ -132,5 +133,20 @@ class BecasController extends Controller
             'status' => 'error',
             'message' => 'Ha ocurrido un error al eliminar la beca.'
         ]);
+    }
+
+    //Obtener responsable
+    public function getResponsable(Request $request){
+        $becado_id = $request->becado_id;
+        $becadoDB = Becados::where('id', $becado_id)->first();
+        if($becadoDB){
+            $beca = Beca::where('id', (int)$becadoDB['beca_id'])->select('responsable')->first();
+            $datosAcademicos = DatosAcademicos::where('estudiante_id', $becado_id)->first();
+            return response()->json([
+                'responsable' => $beca['responsable'],
+                'estado_academico' => $datosAcademicos['estado_academico']
+            ]);
+        }
+        return response()->json([]);
     }
 }
