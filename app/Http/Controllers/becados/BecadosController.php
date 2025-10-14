@@ -4,10 +4,16 @@ namespace App\Http\Controllers\becados;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEstudianteRequest;
+use App\Models\becados\Becados;
+use App\Models\becados\DatosAcademicos;
+use App\Models\becados\Seguimiento;
+use App\Models\becas\Beca;
+use App\Models\DatosSocioeconomicos;
 use App\Services\Estudiante\EstudianteService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
+use PDF;
 
 class BecadosController extends Controller
 {
@@ -46,5 +52,23 @@ class BecadosController extends Controller
         }
 
         return response()->json($service->destroy($id));
+    }
+
+    //Generar pdf expediente
+    public function printExpediente(Request $request){
+        try{
+            $becado_id = Crypt::decrypt($request->becado_id);
+        }catch(Exception $err){
+            $becado_id = 0;
+        }
+        $becado = Becados::where('id', $becado_id)->first();
+        $beca = Beca::where('id', $becado['beca_id'])->first();
+        $academico = DatosAcademicos::where('estudiante_id', $becado_id)->first();
+        $socio = DatosSocioeconomicos::where('estudiante_id', $becado_id)->first();
+        $seguimientos = Seguimiento::where('estudiante_id', $becado_id)->get();
+
+        $pdf = PDF::loadView('Modulos.Becados.pdf.expendiente',compact('becado','beca','academico','socio','seguimientos'));
+        $pdf->setPaper('letter', 'portrait');
+        return $pdf->stream('expediente-'.$becado['nombre'].'.pdf');
     }
 }

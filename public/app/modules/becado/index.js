@@ -4,7 +4,7 @@ const formEstudiante = document.querySelector('#form-becado');
 const btnAddInstitucion = document.getElementById('btn-add-institucion');
 const btnAddCarrera = document.getElementById('btn-add-carrera');
 
-document.addEventListener('DOMContentLoaded', (e)=> {
+document.addEventListener('DOMContentLoaded', (e) => {
     dataTable('dt-becados', route('becado.listar'));
     $("#beca_id").selectize();
     $("#nivel_educativo").selectize();
@@ -13,8 +13,8 @@ document.addEventListener('DOMContentLoaded', (e)=> {
     //new selectize
     $("#institucion").selectize();
     $("#carrera").selectize();
-    if(btnNewBecado){
-        btnNewBecado.addEventListener('click', (e)=>{
+    if (btnNewBecado) {
+        btnNewBecado.addEventListener('click', (e) => {
             e.preventDefault();
             resetForm();
             //Abrir modal
@@ -23,8 +23,8 @@ document.addEventListener('DOMContentLoaded', (e)=> {
         })
     }
     //Enviar datos
-    if(formEstudiante){
-        formEstudiante.addEventListener('submit', (e)=> {
+    if (formEstudiante) {
+        formEstudiante.addEventListener('submit', (e) => {
             e.preventDefault();
             let formData = new FormData(e.target);
             Swal.fire({
@@ -42,79 +42,79 @@ document.addEventListener('DOMContentLoaded', (e)=> {
                 showConfirmButton: false,
             });
             let record_id = formEstudiante.getAttribute('data-record_id');
-            if(record_id){
+            if (record_id) {
                 console.log(record_id);
                 formData.append('record_id', record_id);
             }
-            axios.post(route('becado.save'),formData)
-            .then((response) => {
-                console.log(response);
-                Swal.close();
-                let data = response.data;
-                if(data.status === "success"){
-                    Swal.fire({
-                        title: "Creado",
-                        text: data.message,
-                        icon: "success"
-                    });
-                    resetForm();
-                    $("#dt-becados").DataTable().ajax.reload(null,false);
-                }else{
-                    Swal.fire({
-                        title: "Atención",
-                        text: data.message,
-                        icon: "error"
-                    });
-                }
-                console.log(response);
-            }).catch((err) => {
-                Swal.close();
-                console.log(err);
-                let errors = err.response?.data?.errors;
-                if (errors) {
-                    for (let [key, arrayMessages] of Object.entries(errors)) {
-                        let messageError = arrayMessages[0];
+            axios.post(route('becado.save'), formData)
+                .then((response) => {
+                    console.log(response);
+                    Swal.close();
+                    let data = response.data;
+                    if (data.status === "success") {
+                        Swal.fire({
+                            title: "Creado",
+                            text: data.message,
+                            icon: "success"
+                        });
+                        resetForm();
+                        $("#dt-becados").DataTable().ajax.reload(null, false);
+                    } else {
+                        Swal.fire({
+                            title: "Atención",
+                            text: data.message,
+                            icon: "error"
+                        });
+                    }
+                    console.log(response);
+                }).catch((err) => {
+                    Swal.close();
+                    console.log(err);
+                    let errors = err.response?.data?.errors;
+                    if (errors) {
+                        for (let [key, arrayMessages] of Object.entries(errors)) {
+                            let messageError = arrayMessages[0];
+                            Swal.fire({
+                                title: "Error",
+                                text: messageError,
+                                icon: "error"
+                            }); return;
+                        }
+                    } else {
                         Swal.fire({
                             title: "Error",
-                            text: messageError,
+                            text: 'Ha ocurrido un error inesperado. Por favor, inténtelo nuevamente.',
                             icon: "error"
-                        }); return;
+                        });
                     }
-                } else {
-                    Swal.fire({
-                        title: "Error",
-                        text: 'Ha ocurrido un error inesperado. Por favor, inténtelo nuevamente.',
-                        icon: "error"
-                    });
-                }
-            });
+                });
         })
     }
     //Nueva institucion
-    if(btnAddInstitucion){
-        btnAddInstitucion.addEventListener('click', (e)=> {
+    if (btnAddInstitucion) {
+        btnAddInstitucion.addEventListener('click', (e) => {
             e.stopPropagation();
             document.getElementById('form-val-dinamico').reset();
             document.getElementById('modal-title-valores').textContent = `Registrar nueva Institución`;
-            document.getElementById('form-val-dinamico').setAttribute('data-modulo','becados');
-            document.getElementById('form-val-dinamico').setAttribute('data-identificador','institucion');
+            document.getElementById('form-val-dinamico').setAttribute('data-modulo', 'becados');
+            document.getElementById('form-val-dinamico').setAttribute('data-identificador', 'institucion');
             $("#modal-form-valores").modal('show');
         })
     }
 
-    if(btnAddCarrera){
+    if (btnAddCarrera) {
         btnAddCarrera.addEventListener('click', (e) => {
             e.preventDefault();
             document.getElementById('form-val-dinamico').reset();
             document.getElementById('modal-title-valores').textContent = `Registrar nueva carrera`;
-            document.getElementById('form-val-dinamico').setAttribute('data-modulo','becados');
-            document.getElementById('form-val-dinamico').setAttribute('data-identificador','carrera');
+            document.getElementById('form-val-dinamico').setAttribute('data-modulo', 'becados');
+            document.getElementById('form-val-dinamico').setAttribute('data-identificador', 'carrera');
             $("#modal-form-valores").modal('show');
         })
     }
 })
 
-function resetForm(){
+function resetForm() {
     formEstudiante.reset();
     $("#modal-form-becado").modal('hide');
     $("#beca_id")[0].selectize.clear();
@@ -124,7 +124,7 @@ function resetForm(){
     $("#carrera")[0].selectize.clear();
 }
 
-function getBecas(){
+function getBecas() {
     Swal.fire({
         title: 'Solicitud en proceso...',
         html: `
@@ -140,65 +140,65 @@ function getBecas(){
         showConfirmButton: false,
     });
     axios.post(route('becas.obtener'))
-    .then((response)=>{
-        Swal.close();
-        let data = response.data;
-        let becas_selectize = $("#beca_id")[0].selectize;
-        becas_selectize.clear();
-        becas_selectize.clearOptions();
-        data.forEach(element => {
-            becas_selectize.addOption({
-                value: element.id,
-                text: `${element.nombre} - Tipo beca: ${element.tipo_beca}`
+        .then((response) => {
+            Swal.close();
+            let data = response.data;
+            let becas_selectize = $("#beca_id")[0].selectize;
+            becas_selectize.clear();
+            becas_selectize.clearOptions();
+            data.forEach(element => {
+                becas_selectize.addOption({
+                    value: element.id,
+                    text: `${element.nombre} - Tipo beca: ${element.tipo_beca}`
+                });
             });
-        });
-        console.log(response);
-    }).catch((err)=>{
-        Swal.close();
-        console.log(err);
-    })
+            console.log(response);
+        }).catch((err) => {
+            Swal.close();
+            console.log(err);
+        })
 }
 
-function editEstudiante(tag){
+function editEstudiante(tag) {
     getBecas();
     let record_id = tag.dataset.record_id;
-    axios.post(route('becado.edit'), {record_id: record_id})
-    .then((response)=>{
-        resetForm();
-        formEstudiante.setAttribute('data-record_id', record_id);
-        let data = response.data;
-        //Elementos Estudiante
-        document.getElementById('nombre_completo').value = data.nombre_completo;
-        document.getElementById('documento').value = data.documento;
-        document.getElementById('fecha_nacimiento').value = data.fecha_nacimiento;
-        document.getElementById('direccion').value = data.direccion;
-        document.getElementById('telefono').value = data.telefono;
-        document.getElementById('contacto_emergencia').value = data.telefono_emergencia;
-        document.getElementById('email_becado').value = data.email;
-        $("#beca_id")[0].selectize.setValue(data.beca_id);
-        //Datos academicos
-        $("#nivel_educativo")[0].selectize.setValue(data.nivel_educativo);
-        $('#institucion')[0].selectize.setValue(data.institucion);
-        $('#carrera')[0].selectize.setValue(data.carrera_grado);
-        document.getElementById('promedio').value         = data.promedio;
-        $("#estado_academico")[0].selectize.setValue(data.estado_academico);
-        document.getElementById('fInicio_beca').value     = data.fInicio;
-        document.getElementById('fFin_beca').value        = data.fFin;
-        //Datos socioeconomicos
-        $("#situacion_familiar")[0].selectize.setValue(data.situacion_familiar);
-        document.getElementById('ingreso_aprox').value       = data.ingresos;
-        document.getElementById('numero_personas').value     = data.cantidad_personas;
-        document.getElementById('necesidades_esp').value     = data.necesidades;
-        document.getElementById('comunidad_residencia').value= data.comunidad;
-        console.log(response);
-        $("#modal-form-becado").modal('show');
-    }).catch((err)=>{
-        console.log(err);
-    })
+    axios.post(route('becado.edit'), { record_id: record_id })
+        .then((response) => {
+            resetForm();
+            formEstudiante.setAttribute('data-record_id', record_id);
+            let data = response.data;
+            //Elementos Estudiante
+            document.getElementById('nombre_completo').value = data.nombre_completo;
+            document.getElementById('documento').value = data.documento;
+            document.getElementById('fecha_nacimiento').value = data.fecha_nacimiento;
+            document.getElementById('direccion').value = data.direccion;
+            document.getElementById('telefono').value = data.telefono;
+            document.getElementById('contacto_emergencia').value = data.telefono_emergencia;
+            document.getElementById('email_becado').value = data.email;
+            $("#beca_id")[0].selectize.setValue(data.beca_id);
+            //Datos academicos
+            $("#nivel_educativo")[0].selectize.setValue(data.nivel_educativo);
+            $('#institucion')[0].selectize.setValue(data.institucion);
+            $('#carrera')[0].selectize.setValue(data.carrera_grado);
+            document.getElementById('promedio').value = data.promedio;
+            $("#estado_academico")[0].selectize.setValue(data.estado_academico);
+            document.getElementById('fInicio_beca').value = data.fInicio;
+            document.getElementById('fFin_beca').value = data.fFin;
+            //Datos socioeconomicos
+            $("#situacion_familiar")[0].selectize.setValue(data.situacion_familiar);
+            document.getElementById('ingreso_aprox').value = data.ingresos;
+            document.getElementById('numero_personas').value = data.cantidad_personas;
+            document.getElementById('necesidades_esp').value = data.necesidades;
+            document.getElementById('comunidad_residencia').value = data.comunidad;
+            console.log(response);
+            $("#modal-form-becado").modal('show');
+        }).catch((err) => {
+            console.log(err);
+        })
 }
 
-function removeEstudiante(tag_button){
-    let {record_id, nombre} = tag_button.dataset;
+function removeEstudiante(tag_button) {
+    let { record_id, nombre } = tag_button.dataset;
     Swal.fire({
         title: "¿Estás seguro?",
         html: `Se eliminará al becado <strong>${nombre}</strong> de forma permanente.`,
@@ -212,37 +212,92 @@ function removeEstudiante(tag_button){
         focusCancel: true
     }).then((result) => {
         if (result.isConfirmed) {
-            axios.post(route('destroy.becado'), {record_id})
-            .then((response)=>{
-                let data = response.data;
-                if(data.status === "success"){
+            axios.post(route('destroy.becado'), { record_id })
+                .then((response) => {
+                    let data = response.data;
+                    if (data.status === "success") {
+                        Swal.fire({
+                            title: "Eliminado",
+                            text: `El becado ${nombre} fue eliminado correctamente.`,
+                            icon: "success",
+                            timer: 2500,
+                            showConfirmButton: true
+                        });
+                    } else {
+                        Swal.fire({
+                            title: "Error",
+                            text: data.message,
+                            icon: "error",
+                            timer: 3500,
+                            showConfirmButton: true
+                        });
+                    }
+                    $("#dt-becados").DataTable().ajax.reload();
+                }).catch((err) => {
+                    console.log(err);
                     Swal.fire({
-                        title: "Eliminado",
-                        text: `El becado ${nombre} fue eliminado correctamente.`,
-                        icon: "success",
+                        title: "Error",
+                        text: `Ha ocurrido un error al procesar la solicitud.`,
+                        icon: "error",
                         timer: 2500,
                         showConfirmButton: true
                     });
-                }else{
-                    Swal.fire({
-                        title: "Error",
-                        text: data.message,
-                        icon: "error",
-                        timer: 3500,
-                        showConfirmButton: true
-                    });
-                }
-                $("#dt-becados").DataTable().ajax.reload();
-            }).catch((err)=>{
-                console.log(err);
-                Swal.fire({
-                    title: "Error",
-                    text: `Ha ocurrido un error al procesar la solicitud.`,
-                    icon: "error",
-                    timer: 2500,
-                    showConfirmButton: true
-                });
-            })
+                })
         }
     });
+}
+
+function genExpediente(tag) {
+    let { record_id, nombre } = tag.dataset;
+
+    Swal.fire({
+        title: `<div class="fs-4 fw-semibold text-success mb-2">
+                    <i class="bi bi-file-earmark-pdf-fill me-2 text-danger"></i>
+                    Generar expediente de: ${nombre}
+                </div>`,
+        html: `<p class="text-secondary mb-0">
+                Esta acción generará un documento PDF. <br>
+                ¿Deseás continuar?
+            </p>`,
+        icon: "warning",
+        showCancelButton: true,
+        focusConfirm: false,
+        buttonsStyling: false, // Desactiva estilos por defecto de SweetAlert
+        customClass: {
+            popup: 'rounded-4 shadow-lg border border-light',
+            confirmButton: 'btn btn-primary btn-sm px-4 me-2 rounded-pill',
+            cancelButton: 'btn btn-outline-secondary btn-sm px-4 rounded-pill',
+            icon: 'border border-2 border-warning rounded-circle'
+        },
+        confirmButtonText: '<i class="bi bi-check-circle-fill me-1"></i> Sí, generar PDF',
+        cancelButtonText: '<i class="bi bi-x-circle me-1"></i> Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            printPdf(record_id);
+        }
+    });
+}
+
+function printPdf(becado_id){
+    //obtener token de seguridad
+    let tokenCSRF = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    //generar pdf
+    let form = document.createElement("form");
+    form.action = route('becado.exp.pdf');
+    form.target = "_blank";
+    form.method = "POST";
+
+    let input_id = document.createElement('input');
+    input_id.value = becado_id;
+    input_id.name = "becado_id";
+    //Token
+    let token = document.createElement('input');
+    token.value = tokenCSRF;
+    token.name = '_token';
+
+    form.appendChild(input_id);
+    form.appendChild(token);
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
 }

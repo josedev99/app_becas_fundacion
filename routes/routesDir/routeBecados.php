@@ -12,6 +12,8 @@ Route::prefix('/estudiante')->middleware('auth')->group(function(){
     
     Route::post('/obtener-todos',[BecadosController::class, 'getBecadosAll'])->name('becado.getAll');
     Route::post('/destroy-becado',[BecadosController::class, 'destroyBecado'])->name('destroy.becado');
+    //pdf expediente
+    Route::post('/expediente-pdf',[BecadosController::class, 'printExpediente'])->name('becado.exp.pdf');
 });
 
 Route::prefix('/seguimiento')->middleware('auth')->group(function(){
