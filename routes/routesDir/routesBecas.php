@@ -10,4 +10,6 @@ Route::prefix('/becas')->middleware('auth')->group(function(){
     Route::post('/listar', [BecasController::class, 'listarBecas'])->name('becas.listar');
     Route::post('/editar', [BecasController::class, 'getBecaById'])->name('beca.edit');
     Route::post('delete',[BecasController::class, 'destroyBeca'])->name('beca.destroy');
+    //Obtener responsable de beca
+    Route::post('obtener-responsable', [BecasController::class, 'getResponsable'])->name('beca.get.responsable');
 });

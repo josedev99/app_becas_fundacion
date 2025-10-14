@@ -7,6 +7,14 @@ const modalContentDetalle = document.getElementById('modalContentDetalle');
 document.addEventListener('DOMContentLoaded', (e) => {
     dataTable('dt-seguimiento', route('seguimiento.listar'), {becado_id: 0, estado: ''});
     $("#becado_seguimiento").selectize();
+
+    $("#becado_seguimiento")[0].selectize.on('change', (value)=>{
+        console.log(value);
+        if(value !== ""){
+            getResponsableBeca(value);
+        }
+    })
+
     $("#filtro_estudiante").selectize();
     $("#filtro_estado").selectize();
     $("#estado_beca").selectize();
@@ -140,6 +148,20 @@ document.addEventListener('DOMContentLoaded', (e) => {
         })
     }
 });
+
+function getResponsableBeca(value){
+    $("#estado_beca")[0].selectize.clear();
+    document.getElementById('responsable_seguimiento').value = '';
+    axios.post(route('beca.get.responsable'),{becado_id: value})
+    .then((response)=>{
+        let data = response.data;
+        document.getElementById('responsable_seguimiento').value = data.responsable;
+        $("#estado_beca")[0].selectize.setValue(data.estado_academico);
+        console.log(response)
+    }).catch((err)=>{
+        console.log(err);
+    })
+}
 
 function filtrarFechas(){
     let becado_id = $("#filtro_estudiante")[0].selectize.getValue();
