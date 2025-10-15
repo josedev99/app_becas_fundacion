@@ -117,7 +117,7 @@
         <tr>
             <td style="width: 50%;text-align:left">{{ $becado->nombre_completo ?? '' }}</td>
             <td style="width: 25%;text-align:center">{{ $becado->documento ?? '' }}</td>
-            <td style="width: 25%;text-align:center">{{ $becado->fecha_nacimiento ?? '' }}</td>
+            <td style="width: 25%;text-align:center">{{ date("d/m/Y",strtotime($becado->fecha_nacimiento)) ?? '' }}</td>
         </tr>
         <tr>
             <th style="width: 50%;text-align:left" class="text-center">Dirección</th>
