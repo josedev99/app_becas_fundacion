@@ -91,7 +91,7 @@
 
         /* Subtítulos dentro de secciones */
         .subtitulo {
-            color: #0d6efd;
+            color: #385b83;
             font-weight: bold;
             margin-top: 10px;
         }
@@ -136,16 +136,16 @@
             <th class="title-table" colspan="4" style="width: 100%;text-align:center">Datos Académicos</th>
         </tr>
         <tr>
-            <th>Nivel Educativo</th>
-            <th>Institución</th>
-            <th>Carrera</th>
-            <th>Estado</th>
+            <th style="text-align:center">Nivel Educativo</th>
+            <th style="text-align:center">Institución</th>
+            <th style="text-align:center">Carrera</th>
+            <th style="text-align:center">Estado</th>
         </tr>
         <tr>
-            <td>{{ $academico->nivel_educativo ?? '' }}</td>
+            <td style="text-align: center">{{ $academico->nivel_educativo ?? '' }}</td>
             <td>{{ $academico->institucion ?? '' }}</td>
             <td>{{ $academico->carrera_grado ?? '' }}</td>
-            <td>{{ $academico->estado_academico ?? '' }}</td>
+            <td style="text-align: center">{{ $academico->estado_academico ?? '' }}</td>
         </tr>
     </table>
 
@@ -161,7 +161,7 @@
             </thead>
             <tbody>
                 <tr>
-                    <td>{{ $socio->situacion_familiar ?? '' }}</td>
+                    <td style="text-align: center">{{ $socio->situacion_familiar ?? '' }}</td>
                     <td style="text-align: right">${{ number_format($socio->ingresos,2,'.',',') ?? '' }}</td>
                     <td style="text-align: right">{{ $socio->cantidad_personas ?? '' }}</td>
                 </tr>
@@ -172,21 +172,21 @@
         <p class="mb-2">{{ $socio->necesidades ?? 'Ninguna' }}</p>
     </div>
 
-    @foreach($seguimientos as $key)
+    @foreach($seguimientos as $k => $key)
         <div class="section">
-            <h4>Seguimiento del Becado</h4>
+            <h4>Seguimiento #{{$k + 1}}</h4>
             <table>
                 <tr>
-                    <th>Fecha Seguimiento</th>
+                    <th>Fecha</th>
                     <th>Responsable</th>
-                    <th>Estado Seguimiento</th>
-                    <th>Próximo Seguimiento</th>
+                    <th>Estado</th>
+                    <th>Próximo seguimiento</th>
                 </tr>
                 <tr>
-                    <td>{{ $key->fecha_reporte ?? '' }}</td>
+                    <td>{{ date('d/m/Y H:i:s',strtotime($key->fecha_reporte)) ?? '' }}</td>
                     <td>{{ $key->responsable_seguimiento ?? '' }}</td>
                     <td>{{ $key->estado_beca ?? '' }}</td>
-                    <td>{{ $key->fecha_proximo ?? '' }}</td>
+                    <td>{{ $key->fecha_proximo ?? '-' }}</td>
                 </tr>
                 <tr>
                     <th colspan="2">Participación</th>

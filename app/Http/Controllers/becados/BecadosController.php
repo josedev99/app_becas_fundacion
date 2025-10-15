@@ -53,7 +53,6 @@ class BecadosController extends Controller
 
         return response()->json($service->destroy($id));
     }
-
     //Generar pdf expediente
     public function printExpediente(Request $request){
         try{
@@ -69,6 +68,6 @@ class BecadosController extends Controller
 
         $pdf = PDF::loadView('Modulos.Becados.pdf.expendiente',compact('becado','beca','academico','socio','seguimientos'));
         $pdf->setPaper('letter', 'portrait');
-        return $pdf->stream('expediente-'.$becado['nombre'].'.pdf');
+        return $pdf->stream('Expediente_'.str_replace(' ','_',ucwords(strtolower($becado['nombre_completo']))).'.pdf');
     }
 }
