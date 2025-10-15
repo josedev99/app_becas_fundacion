@@ -23,12 +23,12 @@
             text-align: center;
             padding-bottom: 8px;
             margin-bottom: 15px;
-            border-bottom: 2px solid #0d6efd;
+            border-bottom: 1px solid #0d6efd;
         }
 
         header h2 {
             margin: 0;
-            color: #0d6efd;
+            color: #151f31;
             letter-spacing: 0.5px;
         }
 
@@ -47,7 +47,7 @@
         }
 
         .section h4 {
-            background-color: #151f31;
+            background-color: #385b83;
             color: #fff;
             padding: 4px;
             border-radius: 5px 5px 0 0;
@@ -56,7 +56,7 @@
         }
 
         .title-table{
-            background-color: #151f31;
+            background-color: #385b83;
             color: #fff;
             padding: 4px;
             border-radius: 5px 5px 0 0;
@@ -107,23 +107,27 @@
 
     <table>
         <tr>
-            <th class="title-table" colspan="6" style="width: 100%;text-align:center">Datos del Becado</th>
+            <th colspan="3" class="title-table" style="width: 100%;text-align:center">Datos del Becado</th>
         </tr>
         <tr>
-            <th class="text-center">DUI</th>
-            <th class="text-center">Nombre</th>
-            <th class="text-center">F. Nacimiento</th>
-            <th class="text-center">Dirección</th>
-            <th class="text-center">Tel.</th>
-            <th class="text-center">Tel. de Emergencia</th>
+            <th style="width: 50%;text-align:left" class="text-center">Nombre</th>
+            <th style="width: 25%;text-align:center" class="text-center">DUI</th>
+            <th style="width: 25%;text-align:center" class="text-center">F. Nacimiento</th>
         </tr>
         <tr>
-            <td>{{ $becado->documento ?? '' }}</td>
-            <td>{{ $becado->nombre_completo ?? '' }}</td>
-            <td>{{ $becado->fecha_nacimiento ?? '' }}</td>
-            <td>{{ $becado->direccion ?? '' }}</td>
-            <td>{{ $becado->telefono ?? '' }}</td>
-            <td>{{ $becado->telefono_emergencia ?? '' }}</td>
+            <td style="width: 50%;text-align:left">{{ $becado->nombre_completo ?? '' }}</td>
+            <td style="width: 25%;text-align:center">{{ $becado->documento ?? '' }}</td>
+            <td style="width: 25%;text-align:center">{{ $becado->fecha_nacimiento ?? '' }}</td>
+        </tr>
+        <tr>
+            <th style="width: 50%;text-align:left" class="text-center">Dirección</th>
+            <th style="width: 25%;text-align:center" class="text-center">Tel.</th>
+            <th style="width: 25%;text-align:center" class="text-center">Tel. de Emergencia</th>
+        </tr>
+        <tr>
+            <td style="width: 50%;text-align:left">{{ $becado->direccion ?? '' }}</td>
+            <td style="width: 25%;text-align:center">{{ $becado->telefono ?? '' }}</td>
+            <td style="width: 25%;text-align:center">{{ $becado->telefono_emergencia ?? '' }}</td>
         </tr>
     </table>
 
@@ -150,16 +154,16 @@
         <table>
             <thead>
                 <tr>
-                    <th>Situación Familiar</th>
-                    <th>Ingresos Estimados</th>
-                    <th>Cantidad Personas</th>
+                    <th style="text-align:center">Situación Familiar</th>
+                    <th style="text-align:center">Ingresos Estimados</th>
+                    <th style="text-align:center">Cantidad Personas</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td>{{ $socio->situacion_familiar ?? '' }}</td>
-                    <td>${{ number_format($socio->ingresos,2,'.',',') ?? '' }}</td>
-                    <td>{{ $socio->cantidad_personas ?? '' }}</td>
+                    <td style="text-align: right">${{ number_format($socio->ingresos,2,'.',',') ?? '' }}</td>
+                    <td style="text-align: right">{{ $socio->cantidad_personas ?? '' }}</td>
                 </tr>
             </tbody>
         </table>
