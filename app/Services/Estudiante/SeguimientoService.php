@@ -2,6 +2,7 @@
 namespace App\Services\Estudiante;
 
 use App\Models\becados\Becados;
+use App\Models\becados\DatosAcademicos;
 use App\Models\becados\Seguimiento;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -29,7 +30,7 @@ class SeguimientoService{
             ]);
             if($saveSeguimiento){
                 //Update estado de becado
-                Becados::where('id', $datos['becado_seguimiento'])->update(["estado_academico" => $datos['estado_beca']]);
+                DatosAcademicos::where('estudiante_id', $datos['becado_seguimiento'])->update(["estado_academico" => $datos['estado_beca']]);
                 DB::commit();
                 return [
                     'status' => 'success',
