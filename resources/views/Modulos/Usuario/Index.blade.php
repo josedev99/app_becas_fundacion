@@ -30,7 +30,6 @@
                 <thead style="color:white;min-height:10px;border-radius: 2px;" class="bg-dark">
                     <tr style="min-height:10px;border-radius: 3px;font-style: normal;font-size: 12px">
                         <th style="text-align:center">#</th>
-                        <th style="text-align:center">Cuenta</th>
                         <th style="text-align:center">Nombre</th>
                         <th style="text-align:center">Teléfono</th>
                         <th style="text-align:center">Usuario</th>

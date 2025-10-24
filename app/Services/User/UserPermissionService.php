@@ -60,23 +60,4 @@ class UserPermissionService{
 
         return $modules;
     }
-
-    public function loadAccountModules(int $accountId): array
-    {
-        if (!Auth::check()) {
-            return [];
-        }
-
-        $moduleIds = ModuloCuenta::where('cuenta_id', $accountId)
-            ->pluck('modulo_id')
-            ->toArray();
-
-        $modules = Modulo::whereIn('id', $moduleIds)
-            ->pluck('clave')
-            ->toArray();
-
-        Session::put('modulosAccount', $modules);
-
-        return $modules;
-    }
 }

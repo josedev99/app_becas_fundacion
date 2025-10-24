@@ -42,6 +42,7 @@ class ComposerStaticInita215da406cd8ca2fea630c74892088dc
         'ce9671a430e4846b44e1c68c7611f9f5' => __DIR__ . '/..' . '/mockery/mockery/library/Mockery.php',
         'a1cfe24d14977df6878b9bf804af2d1c' => __DIR__ . '/..' . '/nunomaduro/collision/src/Adapters/Phpunit/Autoload.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
+        'c8a64634af35d6fdafbafc00c95956e5' => __DIR__ . '/../..' . '/app/Helpers/permissionsHelper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -579,6 +580,7 @@ class ComposerStaticInita215da406cd8ca2fea630c74892088dc
         'App\\Http\\Controllers\\CuentaController' => __DIR__ . '/../..' . '/app/Http/Controllers/CuentaController.php',
         'App\\Http\\Controllers\\EmpresaController' => __DIR__ . '/../..' . '/app/Http/Controllers/EmpresaController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
+        'App\\Http\\Controllers\\Permission\\ModuloPermisoController' => __DIR__ . '/../..' . '/app/Http/Controllers/Permission/ModuloPermisoController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'App\\Http\\Controllers\\ValFormDinmicoController' => __DIR__ . '/../..' . '/app/Http/Controllers/ValFormDinmicoController.php',
         'App\\Http\\Controllers\\becados\\BecadosController' => __DIR__ . '/../..' . '/app/Http/Controllers/becados/BecadosController.php',
@@ -592,6 +594,9 @@ class ComposerStaticInita215da406cd8ca2fea630c74892088dc
         'App\\Http\\Requests\\StorePermisoRequest' => __DIR__ . '/../..' . '/app/Http/Requests/StorePermisoRequest.php',
         'App\\Http\\Requests\\UserRequest' => __DIR__ . '/../..' . '/app/Http/Requests/UserRequest.php',
         'App\\Models\\DatosSocioeconomicos' => __DIR__ . '/../..' . '/app/Models/DatosSocioeconomicos.php',
+        'App\\Models\\Permission\\Modulo' => __DIR__ . '/../..' . '/app/Models/Permission/Modulo.php',
+        'App\\Models\\Permission\\ModuloAccion' => __DIR__ . '/../..' . '/app/Models/Permission/ModuloAccion.php',
+        'App\\Models\\Permission\\PermisoUsuario' => __DIR__ . '/../..' . '/app/Models/Permission/PermisoUsuario.php',
         'App\\Models\\User' => __DIR__ . '/../..' . '/app/Models/User.php',
         'App\\Models\\ValFormDinamico' => __DIR__ . '/../..' . '/app/Models/ValFormDinamico.php',
         'App\\Models\\becados\\Becados' => __DIR__ . '/../..' . '/app/Models/becados/Becados.php',

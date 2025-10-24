@@ -27,9 +27,14 @@
             </a>
         </li>
 
+        @if(Auth::check() && (Auth::user()->categoria== "SuperAdmin" || PermissionHelper::hasPermissionUser("usuario_ver")))
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('user.index') }}">
+                <i class="bi bi-people"></i>
+                <span>Usuario</span>
+            </a>
+        </li>
+        @endif
+
     </ul>
-    </ul>
-
-
-
 </aside><!-- End Sidebar-->

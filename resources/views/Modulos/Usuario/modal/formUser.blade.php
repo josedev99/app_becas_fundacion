@@ -134,14 +134,6 @@
                                         <label class="input-label">Cargo (opcional)</label>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-6 col-lg-6">
-                                    <div class="input-group mb-2">
-                                        <label for="" class="select-title">Empresa (*)</label>
-                                        <select class="form-select" name="empresa_id" id="empresa_id">
-                                            <option value="">Seleccionar</option>
-                                        </select>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         @if(Auth::check() && in_array(Auth::user()->categoria,["SuperAdmin", "Administrador"]))

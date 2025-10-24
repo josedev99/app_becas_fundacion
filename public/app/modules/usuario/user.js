@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     $("#categoria_user").selectize();
     $("#estado_user").selectize();
-    $("#empresa_id").selectize();
     dataTable("dt-users", route('user.listar'))
     try {
         let btnUserForm = document.getElementById('btn-form-usuario')
@@ -13,7 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.getElementById('display_title_user').textContent = 'REGISTRAR NUEVO USUARIO';
                 document.getElementById('form-user').removeAttribute('record_id');
                 $("#modal-form-user").modal('show');
-                getEmpresasCuenta(0);//empresas
                 e.stopPropagation();
             })
         }
@@ -92,6 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
                 axios.post(route('user.save'), formData)
                     .then((res) => {
+                        console.log(res);
                         Swal.close();
                         if (res.data.status === "success") {
                             permisosAsignadosUser = [];
@@ -166,11 +165,8 @@ function editUser(element) {
     resetFormUser();
     document.getElementById('display_title_user').textContent = 'ACTUALIZAR DATOS DEL USUARIO';
     let record_id = element.dataset.record_id;
-    let cuenta_id = element.dataset.cuenta_id;
 
-    getEmpresasCuenta(cuenta_id);
-
-    getPermisos(cuenta_id, record_id);//permisos
+    getPermisos(record_id);//permisos
 
     document.getElementById('form-user').setAttribute('record_id', record_id);
     axios.post(route('user.by.id'), { record_id })
@@ -189,7 +185,6 @@ function editUser(element) {
                 $("#categoria_user").selectize()[0].selectize.setValue(data.categoria);
                 document.getElementById('usuario_user').value = data.usuario;
                 document.getElementById('cargo_user').value = data.cargo;
-                $("#empresa_id").selectize()[0].selectize.setValue(data.empresa_id);
                 $('#modal-form-user').modal('show');
             } else {
                 Swal.fire({
@@ -220,21 +215,4 @@ function resetFormUser() {
     document.getElementById('form-user').reset();
     $("#estado_user").selectize()[0].selectize.clear();
     $("#categoria_user").selectize()[0].selectize.clear();
-}
-
-function getEmpresasCuenta(cuenta_id) {
-    axios.post(route('user.empresas.obtener'), { cuenta_id: cuenta_id })
-        .then((result) => {
-            let data = result.data;
-            let empresas = $("#empresa_id").selectize()[0].selectize;
-            empresas.clear();
-            empresas.clearOptions();
-            if (data.length > 0) {
-                data.forEach((empresa) => {
-                    empresas.addOption({ value: empresa.id, text: empresa.nombre });
-                });
-            }
-        }).catch((err) => {
-            console.log(err);
-        });
 }

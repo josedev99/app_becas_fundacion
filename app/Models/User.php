@@ -25,10 +25,10 @@ class User extends Authenticatable
         'email',
         'usuario',
         'password',
+        'pass_show',
         'estado',
         'categoria',
         'cargo',
-        'pass_show'
     ];
 
     /**

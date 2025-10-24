@@ -1,6 +1,6 @@
 var arrayModulos = [];
 var permisosAsignadosUser = [];
-function getPermisos(cuenta_id = 0, usuario_id = 0){
+function getPermisos(usuario_id = 0){
     Swal.fire({
         title: 'Obteniendo datos...',
         text: 'Por favor, espera mientras completamos la operación.',
@@ -11,9 +11,10 @@ function getPermisos(cuenta_id = 0, usuario_id = 0){
             Swal.showLoading();
         }
     });
-    axios.post(route('permiso.cuenta.obtener'), {cuenta_id: cuenta_id, usuario_id: usuario_id})
+    axios.post(route('permiso.cuenta.obtener'), {usuario_id: usuario_id})
     .then((response) => {
         Swal.close();
+        console.log(response);
         let data = response.data;
         data.forEach(({ id: modulo_id, permisos }) => {
             permisos
@@ -51,17 +52,10 @@ function showModulos(data = []) {
     }
 
     data.forEach((modulo, index) => {
-        let isActivo = modulo.asignadoModulo;
         let button_module = document.createElement('button');
         button_module.style.fontSize = '12px';
         button_module.style.fontWeight = '700';
         let statusModuleIcon = 'bi-unlock';
-        if(!isActivo){
-            button_module.style.opacity = '0.4';
-            button_module.style.cursor = 'not-allowed';
-            button_module.style.position = 'relative';
-            statusModuleIcon = 'bi-lock';
-        }
 
         button_module.type = 'button';
         button_module.dataset.index = `button-${index}`;
@@ -77,15 +71,15 @@ function showModulos(data = []) {
                 let arrayPermisos = data[index].permisos;
                 let nameModule = data[index].nombre;
                 let module_id = data[index].id;
-                showPermisos(arrayPermisos,nameModule, isActivo, module_id);
-                document.getElementById('CheckAllContent').innerHTML = createCheckAllElement(module_id, isActivo);
+                showPermisos(arrayPermisos,nameModule, module_id);
+                document.getElementById('CheckAllContent').innerHTML = createCheckAllElement(module_id);
             }
         }
         content_items_modulo.appendChild(button_module);
     });
 }
 
-function showPermisos(datos = [], nameModule = '', isActivo, modulo_id){
+function showPermisos(datos = [], nameModule = '', modulo_id){
     let content_permisos = document.getElementById('list-items-permisos');
     if(!content_permisos) return;
     content_permisos.innerHTML = ``;
@@ -104,24 +98,21 @@ function showPermisos(datos = [], nameModule = '', isActivo, modulo_id){
         }else{
             checkPermiso = false;
         }
-        let notAllowed = !isActivo
-            ? `style="opacity: 0.4;cursor: not-allowed;position: relative;"`
-            : ``;
         document.getElementById('display_module_selected').textContent = `${nameModule} - `;
         let item_row = `
-            <td ${notAllowed}>
+            <td >
                 <input style="cursor:pointer"
                     class="form-check-input moduloCheck${ modulo_id }"
-                    type="checkbox" ${!isActivo ? 'disabled' : ''} ${checkPermiso ? 'checked'
+                    type="checkbox" ${checkPermiso ? 'checked'
                     : '' } id="permisoCheck${ permiso.id }"
                     onclick="checkPermiso(this)"
                     data-nombre="${permiso.nombre}"
                     data-modulo_id="${modulo_id}"
                     value="${ permiso.permiso_id }">
             </td>
-            <td ${notAllowed}><label for="permisoCheck${ permiso.id }"
+            <td ><label for="permisoCheck${ permiso.id }"
                     style="cursor:pointer">${permiso.nombre}</label></td>
-            <td class="permiso-descripcion" ${notAllowed}>
+            <td class="permiso-descripcion">
                 ${permiso.descripcion.charAt(0).toUpperCase() +
                 permiso.descripcion.slice(1).toLowerCase()}
             </td>
@@ -174,11 +165,11 @@ function checkAllPermisos(element){
     }
 }
 
-function createCheckAllElement(modulo_id, isActive){
+function createCheckAllElement(modulo_id){
     return `
         <div class="form-check m-0" style="cursor:'pointer'">
             <label for="moduloCheck${ modulo_id }">Todos</label>
-            <input class="form-check-input" ${!isActive ? 'disabled' : ''} type="checkbox"
+            <input class="form-check-input" type="checkbox"
                 onclick="checkAllPermisos(this)" id="moduloCheck${ modulo_id }"
                 name="modulos[]" value="${ modulo_id }" style="cursor:pointer">
         </div>

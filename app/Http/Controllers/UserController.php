@@ -23,13 +23,11 @@ class UserController extends Controller
         if(!Auth::check()){
             return redirect()->route('app.login.index');
         }
-        $cuenta_id = Auth::user()->cuenta_id;
-        return view('Modulos.Usuario.Index',compact('empresas'));
+        return view('Modulos.Usuario.Index');
     }
     public function save(UserRequest $req){
         DB::beginTransaction();
         try{
-            $cuenta_id = Auth::user()->cuenta_id;
             $request = $req->validated();
             $clave = Hash::make($request['clave_user']);
             $clave_show = encrypt($request['clave_user']);
@@ -39,7 +37,6 @@ class UserController extends Controller
             $direccion = !is_null(request()->input('direccion_user')) ? trim(request()->input('direccion_user')) : '-';
             $email = !is_null(request()->input('email_user')) ? trim(request()->input('email_user')) : '';
             $cargo = !is_null(request()->input('cargo_user')) ? trim(request()->input('cargo_user','-')) : '-';
-            $empresa_id = !is_null(request()->input('empresa_id')) ? trim(request()->input('empresa_id','-')) : '-';
 
             //record_id se utiliza para actualizar registro
             $record_id = request()->input('record_id') != 0 ? Crypt::decrypt(request()->input('record_id')) : 0;
@@ -54,11 +51,10 @@ class UserController extends Controller
                 'email' => $email,
                 'usuario' => $request['usuario_user'],
                 'password' => $clave,
-                'password_show' => $clave_show,
+                'pass_show' => $clave_show,
                 'estado' => $request['estado_user'],
                 'categoria' => $request['categoria_user'],
                 'cargo' => $cargo,
-                'empresa_id' => $empresa_id
             ];
             $userExists = User::where('usuario', $request['usuario_user'])->first();
             if($record_id == 0){
@@ -68,15 +64,13 @@ class UserController extends Controller
                         'message' => 'Ya existe un registro con este usuario.'
                     ]);
                 }
-
-                $dataUser['cuenta_id'] = $cuenta_id;
                 
                 $saveUser = User::create($dataUser);
-                $this->moduloPermisoService->asignarPermisoUser($permisosAsignadosUser,$saveUser->id, $cuenta_id);
+                $this->moduloPermisoService->asignarPermisoUser($permisosAsignadosUser,$saveUser->id);
                 $message = 'El usuario se ha creado exitosamente.';
             } else {
                 $saveUser = User::where('id', $record_id)->update($dataUser);
-                $this->moduloPermisoService->asignarPermisoUser($permisosAsignadosUser,$record_id, $cuenta_id);
+                $this->moduloPermisoService->asignarPermisoUser($permisosAsignadosUser,$record_id);
                 $message = 'El usuario se ha actualizado exitosamente.';
             }
 
@@ -103,26 +97,20 @@ class UserController extends Controller
     }
 
     public function listarAll(){
-        if(Auth::user()->categoria == "SuperAdmin"){
-            $datos = DB::select("select u.id, u.nombre,u.telefono,u.usuario,u.estado,u.categoria, COALESCE(c.nombre,'-') as cuenta, u.cuenta_id from users as u left join cuentas as c on u.cuenta_id=c.id order by u.id asc");
-        }else{
-            $cuenta_id = Auth::user()->cuenta_id;
-            $datos = DB::select("select u.id, u.nombre,u.telefono,u.usuario,u.estado,u.categoria, COALESCE(c.nombre,'-') as cuenta,u.cuenta_id from users as u left join cuentas as c on u.cuenta_id=c.id where u.cuenta_id = ? order by u.id asc", [$cuenta_id]);
-        }
+        $datos = DB::select("select u.id, u.nombre,u.telefono,u.usuario,u.estado,u.categoria from users as u order by u.id asc");
 
         $contador = 1;
         $data = [];
         foreach ($datos as $row) {
             $sub_array = array();
             $sub_array[] = $contador;
-            $sub_array[] = $row->cuenta;
             $sub_array[] = $row->nombre;
             $sub_array[] = $row->telefono;
             $sub_array[] = $row->usuario;
             $sub_array[] = $row->estado;
             $sub_array[] = $row->categoria;
             $sub_array[] = '
-            <button onclick="editUser(this)" data-record_id="'. encrypt($row->id) .'" data-cuenta_id="'. encrypt($row->cuenta_id) .'" title="Editar usuario" class="btn btn-outline-info btn-sm" style="border:none;font-size:18px"><i class="bi bi-person-gear"></i></button>
+            <button onclick="editUser(this)" data-record_id="'. encrypt($row->id) .'" title="Editar usuario" class="btn btn-outline-info btn-sm" style="border:none;font-size:18px"><i class="bi bi-person-gear"></i></button>
             <button onclick="destroyUser(this)" data-record_id="'. encrypt($row->id) .'" title="Remover usuario" class="btn btn-outline-danger btn-sm" style="border:none;font-size:18px"><i class="bi bi-person-check"></i></button>
             ';
 
@@ -157,11 +145,10 @@ class UserController extends Controller
                         'direccion' => $user['direccion'],
                         'email' => $user['email'],
                         'usuario' => $user['usuario'],
-                        'clave' => ($user['password_show'] != "") ? Crypt::decrypt($user['password_show']) : '',
+                        'clave' => ($user['pass_show'] != "") ? Crypt::decrypt($user['pass_show']) : '',
                         'estado' => $user['estado'],
                         'categoria' => $user['categoria'],
                         'cargo' => $user['cargo'],
-                        'empresa_id' => $user['empresa_id']
                     ];
                 }
                 $message = 'Usuario obtenido exitosamente.';
@@ -181,21 +168,5 @@ class UserController extends Controller
                 'result' => []
             ]);
         }
-    }
-
-    public function getUserEmpresas(){
-        if(!Auth::check()){
-            return redirect()->route('app.login.index');
-        }
-
-        try{
-            $decrypt_cuenta_id = Crypt::decrypt(request()->input('cuenta_id'));
-        }catch(Exception $e){
-            $decrypt_cuenta_id = 0;
-        }
-
-        $cuenta_id = ((int)$decrypt_cuenta_id != 0) ? (int)$decrypt_cuenta_id : Auth::user()->cuenta_id;
-        $empresas = Empresa::where('cuenta_id', $cuenta_id)->select('id','nombre')->get();
-        return response()->json($empresas);
     }
 }

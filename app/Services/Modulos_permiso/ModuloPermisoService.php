@@ -2,7 +2,6 @@
 namespace App\Services\Modulos_permiso;
 
 use App\Models\Permission\Modulo;
-use App\Models\Permission\ModuloCuenta;
 use App\Models\Permission\PermisoUsuario;
 use Exception;
 use Illuminate\Support\Facades\Auth;
@@ -10,33 +9,6 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Log;
 
 class ModuloPermisoService{
-    public function asignarModuloCuenta(array $modulos, int $cuenta_id){
-        $usuario_id = Auth::user()->id;
-        $modulosSeleccionados = array_map(fn($item) => Crypt::decrypt($item->modulo_id), $modulos);
-        // Módulos ya asignados
-        $modulosExistentes = ModuloCuenta::where('cuenta_id', $cuenta_id)
-            ->pluck('modulo_id')
-            ->toArray();
-
-        // Insertar nuevos
-        $modulosParaInsertar = array_diff($modulosSeleccionados, $modulosExistentes);
-        foreach ($modulosParaInsertar as $modulo_id) {
-            ModuloCuenta::create([
-                'modulo_id' => $modulo_id,
-                'cuenta_id' => $cuenta_id,
-                'asignador_id' => $usuario_id,
-            ]);
-        }
-        // Eliminar los que se quitaron
-        $modulosParaEliminar = array_diff($modulosExistentes, $modulosSeleccionados);
-        if (!empty($modulosParaEliminar)) {
-            ModuloCuenta::where('cuenta_id', $cuenta_id)
-                ->whereIn('modulo_id', $modulosParaEliminar)
-                ->delete();
-        }
-        return !empty($modulosParaInsertar) || !empty($modulosParaEliminar);
-    }
-
     public function asignarModuloPermisoUser(array $modulos, int $usuario_id){
         $asignador_id = Auth::user()->id;
         $modulo_ids = array_map(fn($item) => Crypt::decrypt($item->modulo_id), $modulos);
@@ -68,7 +40,7 @@ class ModuloPermisoService{
         return false;
     }
 
-    public function asignarPermisoUser(array $array_permisos, int $usuario_id, int $cuenta_id){
+    public function asignarPermisoUser(array $array_permisos, int $usuario_id){
          $authUser = Auth::user();
         if (!$authUser || !isset($authUser->id)) {
             Log::warning("Intento de asignar permisos sin usuario autenticado.");
@@ -77,14 +49,6 @@ class ModuloPermisoService{
         $asignador_id = $authUser->id;
 
         try{
-            $modulosExistentes = ModuloCuenta::where('cuenta_id', $cuenta_id)
-                ->pluck('modulo_id')
-                ->toArray();
-
-            $modulo_ids_selected = array_map(fn($item) => Crypt::decrypt($item->modulo_id), $array_permisos);
-
-            $modulosFiltrados = array_intersect($modulosExistentes, $modulo_ids_selected);
-
             // Filtrar permisos para que correspondan solo a los módulos válidos
             $permisosFiltrados = collect($array_permisos)
                 ->map(function ($item) {
@@ -93,7 +57,6 @@ class ModuloPermisoService{
                         'permiso_id' => Crypt::decrypt($item->permiso_id),
                     ];
                 })
-                ->filter(fn($item) => in_array($item['modulo_id'], $modulosFiltrados))
                 ->pluck('permiso_id')
                 ->unique()
                 ->toArray();
