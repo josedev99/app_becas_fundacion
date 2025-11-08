@@ -36,6 +36,12 @@ function getGraduados(cantidadBecados, porcentaje=0){
     }
 }
 
+function inversionAnualDashboard(monto){
+    const tag_inversion_anual = document.getElementById('inversion_becas');
+    if(tag_inversion_anual){
+        tag_inversion_anual.innerText = `$ ${monto}`;
+    }
+}
 function getDataDashboard(){
     axios.post(route('dashboard.datos'))
     .then((response) => {
@@ -47,6 +53,7 @@ function getDataDashboard(){
             setBecadosPorNivel(item.nivel, item.count);
         });
         getGraduados(data.graduados.total_becados, data.graduados.porcentaje);
+        inversionAnualDashboard(data.inversion_anual);
     }).catch((err) => {
         console.error(err);
     });

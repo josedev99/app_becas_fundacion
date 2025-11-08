@@ -130,7 +130,7 @@
                     <h5 class="text-secondary mb-2">
                         <i class="bi bi-cash-stack text-danger me-1"></i> Inversión
                     </h5>
-                    <div class="display-7 fw-bold text-danger">$0.00</div>
+                    <div class="display-7 fw-bold text-danger" id="inversion_becas">$0.00</div>
                     <p class="text-muted mb-0">Inversión anual en becas</p>
                 </div>
             </div>

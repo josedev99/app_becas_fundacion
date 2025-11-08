@@ -85,14 +85,21 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-sm-12 col-md-12 col-lg-4">
+                                <div class="col-sm-12 col-md-12 col-lg-2">
                                     <div class="input-group mb-2">
-                                        <label for="" class="select-title">Monto asignado(*)</label>
+                                        <label for="" class="select-title">Plazo: </label>
                                         <select class="form-select" name="plazo_monto" id="plazo_monto">
                                             <option value="">Seleccionar</option>
                                             <option value="Mensual">Mensual</option>
                                             <option value="Anual">Anual</option>
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 col-md-12 col-lg-2">
+                                    <div class="content-input mb-2">
+                                        <input type="number" step="0.01" min="0" name="monto_beca" id="monto_beca" placeholder=" "
+                                            class="input">
+                                        <label class="input-label">Monto asignado: </label>
                                     </div>
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-4">

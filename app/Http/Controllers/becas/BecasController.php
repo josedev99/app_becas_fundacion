@@ -31,6 +31,7 @@ class BecasController extends Controller
             'tipo_beca' => $datos['tipo_beca'],
             'financiamiento' => $datos['financiamiento'],
             'plazo_monto' => $datos['plazo_monto'],
+            'monto' => $datos['monto_beca'],
             'forma_entrega' => $datos['forma_entrega'],
             'compromisos' => $datos['compromiso'],
             'responsable' => strtoupper(trim($datos['encargado_beca'])),
