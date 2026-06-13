@@ -19,11 +19,11 @@ Route::get('/salir',[LogoutController::class,'logout'])->middleware('auth')->nam
 //Home vista
 Route::get('/',[HomeController::class,'index'])->middleware('auth')->name('app.home');
 
-require __DIR__ . '/RoutesDir/routesModuloPermiso.php';
-require __DIR__.'/routesDir/routeBecados.php';
-require __DIR__.'/routesDir/routesBecas.php';
-require __DIR__.'/routesDir/routesDashboard.php';
-require __DIR__.'/routesDir/routesValoresDinamicos.php';
+require_once __DIR__.'/routesDir/routesModuloPermiso.php';
+require_once __DIR__.'/routesDir/routeBecados.php';
+require_once __DIR__.'/routesDir/routesBecas.php';
+require_once __DIR__.'/routesDir/routesDashboard.php';
+require_once __DIR__.'/routesDir/routesValoresDinamicos.php';
 
 Route::prefix('/usuario')->middleware('auth')->group(function(){
     Route::get('/', [UserController::class, 'index'])->name('user.index');
