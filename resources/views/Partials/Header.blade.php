@@ -2,10 +2,10 @@
 
     <div class="d-flex align-items-center justify-content-between">
         <a href="{{ route('app.home') }}" class="logo d-flex align-items-center">
+            <img class="d-none d-lg-block" src="assets/img/header_logo.png" height="75">
             @if (Auth::check() && isset(Auth::user()->empresa->logo) && Auth::user()->empresa->logo != "")
-                <img class="d-none d-lg-block" src="{{"storage/" . Auth::user()->empresa->logo}}" height="75">
             @endif
-            <span class="d-none d-lg-block">App Becados</span>
+            <span class="d-none d-lg-block">App Becas</span>
         </a>
         <i class="bi bi-list toggle-sidebar-btn"></i>
     </div><!-- End Logo -->

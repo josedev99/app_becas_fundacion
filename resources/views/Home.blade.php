@@ -61,7 +61,8 @@
         font-size: 0.85rem;
     }
 </style>
-<h1>Bienvenido {{ Auth()->user()->nombre }}</h1>
+<h1 style="font-size: 25px;">Bienvenido {{ Auth()->user()->nombre }}</h1>
+<p class="p-0 m-0"><strong>Conectando con historias</strong></p>
 
 <div id="dashboard" class="tab-content">
     <div class="p-3 my-2">

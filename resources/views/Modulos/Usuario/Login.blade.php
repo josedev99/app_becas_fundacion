@@ -87,7 +87,7 @@
 
                   <div
                     style="border-bottom: 5px !important; display: flex; justify-content: center;margin-bottom: 20px">
-                    <img src="assets/img/logo.png" alt="" class="img-responsive log" width="80" height="80">
+                    <img src="assets/img/logo.png" alt="" class="img-responsive log" width="130" height="80">
                   </div>
 
                   <form class="row g-3 needs-validation" action="{{ route('app.login.auth') }}" method="POST">
