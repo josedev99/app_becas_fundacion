@@ -11,6 +11,6 @@ class LogoutController extends Controller
     public function logout(){
         Auth::logout();
         session()->flush(); // Elimina todas las sesiones
-        return redirect()->route('app.login.index');
+        return redirect()->route('app.login');
     }
 }
